@@ -72,4 +72,15 @@ if __name__ == '__main__':
 from sqlalchemy.sql import func
 time_created = Column(DateTime(timezone=True), server_default=func.now())
 time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+
+在flask中可以使用
+from datetime import datetime
+time_created = Column(DateTime(timezone=True), server_default=datetime.utcnow)
+time_updated = Column(DateTime(timezone=True), onupdate=datetime.utcnow)
+
+在django中可以使用
+from django.utils import timezone
+time_created = Column(DateTime(timezone=True), server_default=timezone.now)
+time_updated = Column(DateTime(timezone=True), onupdate=timezone.now)
+
 """
