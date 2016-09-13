@@ -20,7 +20,7 @@ def makeitalic(f):
 def hello():
     return 'hello, world!'
 
-print hello()
+print(hello())
 
 
 # now, let's see a long explanations
@@ -47,7 +47,7 @@ print(scream())
 del shout
 try:
     print(shout())
-except NameError, e:
+except NameError as e:
     print(e)
     # outputs: "name 'shout' is not defined"
 
@@ -76,7 +76,7 @@ talk()
 
 try:
     print(whisper())
-except NameError, e:
+except NameError as e:
     print(e)
     # outputs : "name 'whisper' is not defined"
     # Python's functions are objects
