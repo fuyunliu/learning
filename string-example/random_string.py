@@ -37,3 +37,16 @@ def parent_filedir_iter(n, path):
 testdir = os.path.abspath(parent_filedir(5))
 reload(sys)
 sys.path.append(testdir)
+
+
+# python倒计时
+import time
+
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        t -= 1
+    print('Goodbye!')
