@@ -168,5 +168,3 @@ html_doc = """
 """
 
 soup = BeautifulSoup(html_doc, "lxml")
-
-print(soup.text)
