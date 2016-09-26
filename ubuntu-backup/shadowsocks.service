@@ -1,0 +1,9 @@
+[Unit]
+Description=Start-up shadowsocks
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "sslocal -s 45.32.10.63 -p 8388 -l 1080 -k 'fuckthewall' -t 300 -m aes-256-cfb"
+
+[Install]
+WantedBy=multi-user.target

@@ -65,11 +65,11 @@ D.iteritems()  # 迭代对象，每次取出一个。用for循环遍历出来；
 # <dictionary-itemiterator object at 0x00000000026243B8>
 
 for i in D.iteritems():
-    print i,
+    print(i)
 # ('a', 1)('c', 3)('b', 2)('d', 4)
 
 for k, v in D.iteritems():
-    print k,
+    print(k)
 # a c b d
 # 总结:
 # 1. 一般iteritems()迭代的办法比items()要快，特别是数据库比较大时。
@@ -91,7 +91,7 @@ def fibs(x):
 
 if __name__ == '__main__':
     num = input('Enter one number: ')
-    print fibs(num)
+    print(fibs(num))
 
 
 # Python里如何生产随机数

@@ -1,0 +1,47 @@
+https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
+
+
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
+
+
+sudo apt-get install postgresql-9.5
+
+
+echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list
+
+
+nano /etc/shadowsocks/config.json
+ssserver -c /etc/shadowsocks/config.json -d start
+
+
+
+//mysql忘记密码之重设密码
+1，编辑/etc/mysql/my.cnf配置文件，在[mysqld]下添加skip-grant-tables
+
+2，重启service mysql restart
+
+3，无密码登入mysql -uroot -p
+
+4，修改密码
+update mysql.user set password=password('mypassword') where User="root" and Host="localhost";
+flush privileges;
+grant all on *.* to 'root'@'localhost' identified by 'mypassword' with grant option;
+
+5，去掉skip-grant-tables
+
+6，重启mysql
+
+查看字符集
+SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';
+
+
+
+CREATE TABLE foo (
+    `creation_time`     DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `modification_time` DATETIME ON UPDATE CURRENT_TIMESTAMP
+)
+
+CREATE TABLE bar (
+    `creation_time`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `modification_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)

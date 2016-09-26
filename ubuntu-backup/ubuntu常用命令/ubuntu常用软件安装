@@ -1,0 +1,71 @@
+修复软件依赖包
+sudo apt-get -f install
+
+
+安装最新版的nodejs，安装完后自带最新的npm
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
+nginx安装
+sudo -s
+nginx=stable # use nginx=development for latest development version
+add-apt-repository ppa:nginx/$nginx
+apt-get update
+apt-get install nginx
+
+
+git安装
+sudo -s
+apt-add-repository ppa:git-core/ppa
+apt-get update
+apt-get install git
+
+
+删除php5，升级php7
+sudo -s
+apt-get install python-software-properties
+LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+apt-get update
+apt-get purge php5-common -y
+apt-get install php7.0 php7.0-fpm php7.0-mysql -y
+apt-get --purge autoremove -y
+
+
+mysql5.7安装
+# Confirm the version at http://dev.mysql.com/downloads/repo/apt/
+wget -O mysql-apt-config.deb https://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
+
+sudo dpkg -i mysql-apt-config.deb
+
+# At the popup-page, select "Apply"
+
+# Install mysql-server package
+sudo apt-get update
+sudo apt-get install mysql-server-5.7 -y
+sudo apt-get install libmysqlclient-dev libmysqlclient18
+
+安装完之后运行
+mysql_upgrade -u root -p --force
+然后重启mysql
+sudo service mysql restart
+
+安装phpmyadmin
+sudo apt-cache policy phpmyadmin
+sudo apt-get install phpmyadmin
+sudo dpkg-reconfigure phpmyadmin 重新配置phpmyadmin
+sudo ln -s /usr/share/phpmyadmin/ /usr/share/nginx/html
+或者是
+sudo ln -s /usr/share/phpmyadmin/ /usr/www/html
+如果安装完phpmyadmin之后报500，则安装以下软件
+sudo apt-get install php-mbstring php7.0-mbstring php-gettext
+sudo service nginx restart
+
+
+postgrsql安装
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+
+
+
+

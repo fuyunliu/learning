@@ -1,0 +1,42 @@
+1，清理下载的软件包
+
+首先查看软件包占用多大空间
+du -h /var/cache/apt/archives
+
+删除已经卸载软件的软件包
+sudo apt-get autoclean
+
+删除全部软件的软件包
+sudo apt-get clean
+
+卸载孤立软件包
+sudo apt-get autoremove
+
+2，删除旧内核
+
+首先查看正在使用的内核
+uname -r
+
+显示所有内核
+dpkg --get-selections | grep linux
+
+选择内核并删除
+sudo apt-get purge 内核文件名 头文件名
+
+3，清理浏览器的缓存文件
+
+4，清理已卸载软件的残留配置文件
+
+卸载软件时尽量使用sudo apt-get purge xxx(xxx为软件名)，这样会将软件及其配置文件一并删除
+
+使用新立得包管理器删除残留配置文件
+
+
+查看那些pip包过期了
+pip list --outdated
+
+一键升级所有过期的pip包
+sudo pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 sudo pip install -U
+
+
+

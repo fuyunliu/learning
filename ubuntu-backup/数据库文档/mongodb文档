@@ -1,0 +1,21 @@
+几个文件的位置
+配置文件位置：/etc/mongodb.conf
+数据库存储位置：/var/lib/mongodb
+日志文件位置：/var/log/mongodb/mongod.log
+
+服务启动，停止，重启，状态命令
+systemctl start mongodb.service
+systemctl stop mongodb.service
+systemctl restart mongodb.service
+systemctl ststus mongodb.service
+
+查看有关mongo的进程
+ps -ef|grep mongo*
+
+登入mongo客户端
+mongo
+help
+
+查看文件夹所属用户
+ls -al /var/log/mongodb
+ls -al /var/lib/mongodb

@@ -1,0 +1,158 @@
+1，列出目录内容
+ls
+
+2，详细模式列出
+ls -l
+
+3，列出所有
+ls -a
+
+4，列出块设备
+lsblk
+lsblk -l
+
+5，计算和检验MD5信息签名
+md5sum teamviewer_linux.deb
+
+6，转换和复制文件
+dd if=/home/user/Downloads/debian.iso of=/dev/sdb1 bs=512M; sync
+
+7，显示机器名，操作系统和内核的详细信息
+uname
+uname -a
+
+8，命令的历史记录
+history
+
+9，创建目录
+mkdir test
+
+10，touch命令只会在文件不存在的时候才会创建它。如果文件已经存在了，它会更新时间戳，但是并不会改变文件的内容
+touch test
+
+11，chmod会根据要求的模式来改变每个所给的文件，文件夹，脚本等等的文件模式（权限）
+    在文件中存在3中类型的权限：
+			    Read (r)=4
+			    Write(w)=2
+			    Execute(x)=1
+所以如果你想给文件只读权限，就设置为'4';
+只写权限，设置权限为'2';
+只执行权限，设置为1; 
+读写权限，就是4+2 = 6, 以此类推。
+现在需要设置3种用户和用户组权限。第一个是拥有者，然后是用户所在的组，最后是其它用户。
+比如：rwxr-x--x   abc.sh
+这里root的权限是 rwx（读写和执行权限），
+所属用户组权限是 r-x (只有读和执行权限, 没有写权限)，
+对于其它用户权限是 -x(只有只执行权限)
+为了改变它的权限，为拥有者，用户所在组和其它用户提供读，写，执行权限。
+chmod 777 abc.sh
+chmod 666 abc.sh
+chmod 711 abc.sh
+
+12，chown命令就是改变文件拥有者和所在用户组
+比如：
+drwxr-xr-x 3 server root 4096 May 10 11:14 Binary
+drwxr-xr-x 2 server server 4096 May 13 09:42 Desktop
+执行chown server:server Binary
+变为
+drwxr-xr-x 3 server server 4096 May 10 11:14 Binary
+drwxr-xr-x 2 server server 4096 May 13 09:42 Desktop
+
+13，tar用于解压和归档
+tar -zxvf abc.tar.gz (记住'z'代表了.tar.gz)
+tar -jxvf abc.tar.bz2 (记住'j'代表了.tar.bz2)
+tar -cvf archieve.tar.gz(.bz2) /path/to/folder/abc
+
+14，cal用来显示当前月份或者未来或者过去任何年份中的月份
+cal
+
+显示已经过去的月份，1835年2月
+cal 02 1835
+
+显示未来的月份，2145年7月
+cal 07 2145
+
+15，date命令使用标准的输出打印当前的日期和时间，也可以深入设置
+date
+date --set='14 may 2013 13:57'
+
+16，cat代表了连结（Concatenation），连接两个或者更多文本文件或者以标准输出形式打印文件的内容
+cat a.txt b.txt c.txt d.txt abcd.txt
+cat abcd.txt
+
+17，cp复制
+cp /home/user/Downloads abc.tar.gz /home/user/Desktop (Return 0 when sucess)
+
+18，mv移动
+mv /home/user/Downloads abc.tar.gz /home/user/Desktop (Return 0 when sucess)
+
+19，pwd终端中显示当前工作目录的全路径
+pwd
+
+20，cd改变目录
+cd /home/user/Desktop
+
+21，搜索文件
+模糊搜索
+whereis test
+
+准确搜索，消耗资源大，通常需要sudo权限
+find / -name test
+
+最快最好的方法
+locate test
+
+22，用tree命令以树形结构显示文件目录结构
+自动列表当前目录下面所有深度级别的文件和目录
+tree
+
+只查看当前第一级的目录和文件
+tree -L 1
+
+只查看当前第二级的目录和文件
+tree -L 2
+
+查看当前第二级的目录和文件，并保存
+tree -L 2 > tree.txt
+
+
+tar压缩成gzip文件
+tar -zcvf test.tar.gz test/
+
+
+tar解压gzip文件
+tar -zxvf test.tar.gz
+
+
+tar压缩为bz2文件
+tar -jcvf test.tar.bz2 test/
+
+
+tar解压bz2文件
+tar -jxvf test.tar.bz2
+
+
+如果只想将文件打成tar包，不做压缩
+tar -cvf test.tar test/
+
+
+解压tar包
+tar -xvf test.tar
+
+
+解压7z文件
+7za x test.7z -r -o./
+x 代表解压缩文件
+-r 表示递归解压缩所有的子文件夹
+-o 是指定解压到的目录，-o后是没有空格的，直接接目录
+
+
+7z压缩文件
+7za a -t7z -r test.7z test/*
+a 代表添加文件／文件夹到压缩包
+-t 是指定压缩类型，这里定为7z，可不指定，因为7za默认压缩类型就是7z
+-r 表示递归所有的子文件夹
+test/*是压缩目标
+test.7z是压缩好后的包名
+
+

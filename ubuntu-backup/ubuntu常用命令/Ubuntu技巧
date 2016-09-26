@@ -1,0 +1,119 @@
+1，窗口切换
+super + W
+Alt + Tab
+按住super不放
+
+2，查看和杀死进程
+
+查看进程
+ps -e
+
+查看所有运行程序
+ps -aux
+
+查看包含jdk的所有程序
+ps -aux | grep jdk
+ps -ef | grep jdk
+
+返回指定名字的进程，如firefox
+pgrep firefox
+
+杀死进程
+kill PID 或 sudo kill PID 或 killall firefox 或 kill -9 PID
+
+查看哪些进程占用了8000端口
+lsof -i:8000
+netstat -ap|grep 8000
+
+杀死所有和8000端口有关的进程
+sudo fuser -k 8000/tcp
+
+3，查看系统有哪些服务
+ls /etc/init.d
+
+4，启动、停止和重启某个服务，如postgresql
+/etc/init.d/postgresql start|restart|stop
+
+
+5，删除文件和文件夹
+rm filename 或 rm -r filename 或 rm -f filename
+rm -r filedir
+
+6，移动文件或文件夹
+mv file1 file2
+mv file1 filedir1
+mv filedir1 filedir2mv 
+
+7，显示所有环境变量
+export 或env 或printenv
+
+8，打印已知环境变量，如PATH
+echo $PATH
+
+9，查看codename
+lsb_release -sc或lsb_release -c
+
+10，查看用户，用户组
+cat /etc/group
+更改文件所属用户，组
+chown -R 用户：组 文件夹/文件
+
+11，创建和删除软连接
+创建：sudo ln -s /home/fuyun/filedir1/ /home/fuyun/filedir2
+删除：sudo rm -rf /home/fuyun/filedir2
+
+
+12，创建用户
+sudo adduser fuyun
+
+13，将fuyun添加到sudo组
+sudo adduser fuyun sudo
+
+14，添加已有用户到sudo组
+sudo usermod -aG sudo <username>
+
+15，从sudo组移除用户
+sudo gpasswd  -d <username> sudo
+
+16，文件及文件夹的复制
+
+复制文件test，产生新文件test1
+cp test test1
+
+复制test到testdir
+touch test
+mkdir testdir
+cp test testdir
+
+复制文件夹testdir，产生新文件夹testdir1
+cp -r testdir testdir1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+命令板 ctrl + shift + p
+
+文件切换 ctrl + p
+
+加入文件中定义了许多方法，用ctrl + r快速搜索和切换
+
+同时编辑多行，按住ctrl，并用鼠标点击；或者按ctrl + D
+
+为函数添加文档，使用DocBlockr插件，/×× + Tab
