@@ -45,3 +45,28 @@ CREATE TABLE bar (
     `creation_time`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `modification_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
+
+导出数据库
+mysqldump -u [uname] -p[pass] db_name > db_backup.sql
+
+导出所有数据库
+mysqldump -u [uname] -p[pass] --all-databases > all_db_backup.sql
+
+导出数据库的某些表
+mysqldump -u [uname] -p[pass] db_name table1 table2 > table_backup.sql
+
+导出数据库并压缩
+mysqldump -u [uname] -p[pass] db_name | gzip > db_backup.sql.gz
+
+导出远程数据库
+mysqldump -P 3306 -h [ip_address] -u [uname] -p[pass] db_name > db_backup.sql
+
+导入数据库
+mysql -u username -p -h localhost DATA-BASE-NAME < data.sql
+
+导入远程数据库
+mysql -u username -p -h 202.54.1.10 databasename < data.sql
+
+mysql -u username -p -h mysql.cyberciti.biz database-name < data.sql
+
+mysql -u username -p -h 202.54.1.10 < data.sql
