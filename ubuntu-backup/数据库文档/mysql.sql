@@ -29,3 +29,6 @@ subdate(curdate(), 1)
 # tomorrow's date
 adddate(current_date, 1)
 adddate(curdate(), 1)
+
+# 多个字段一起作为一个唯一约束条件
+ALTER TABLE `test` ADD UNIQUE `unique_index_name` (`c1`, `c2`, `c3`);

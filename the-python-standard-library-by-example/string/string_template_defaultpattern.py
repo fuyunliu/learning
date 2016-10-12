@@ -1,15 +1,6 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2008 Doug Hellmann All rights reserved.
-#
-"""
-"""
-
-__version__ = "$Id$"
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import string
 
 t = string.Template('$var')
-print t.pattern.pattern
+print(t.pattern.pattern)
