@@ -70,3 +70,6 @@ mysql -u username -p -h 202.54.1.10 databasename < data.sql
 mysql -u username -p -h mysql.cyberciti.biz database-name < data.sql
 
 mysql -u username -p -h 202.54.1.10 < data.sql
+
+# 授权账户使得局域网内的机器可以访问数据库
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
