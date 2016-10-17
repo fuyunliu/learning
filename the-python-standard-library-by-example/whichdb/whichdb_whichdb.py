@@ -1,19 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2008 Doug Hellmann All rights reserved.
-#
-"""
-"""
+# -*- coding: utf-8 -*-
 
-__version__ = "$Id$"
-#end_pymotw_header
+import dbm
 
-import anydbm
-import whichdb
-
-db = anydbm.open('/tmp/example.db', 'n')
+db = dbm.open('test.db', 'n')
 db['key'] = 'value'
 db.close()
 
-print whichdb.whichdb('/tmp/example.db')
+print((dbm.whichdb('test.db')))

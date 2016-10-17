@@ -1,11 +1,4 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Sampling from sequences
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import random
 
@@ -15,4 +8,4 @@ words = [ w.rstrip() for w in words ]
 
 for w in random.sample(words, 5):
     print w
-    
+

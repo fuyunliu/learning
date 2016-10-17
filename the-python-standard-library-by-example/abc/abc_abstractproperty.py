@@ -1,24 +1,19 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2009 Doug Hellmann All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import abc
 
+
 class Base(object):
     __metaclass__ = abc.ABCMeta
-    
+
     @abc.abstractproperty
     def value(self):
         return 'Should never get here'
-    
+
     @abc.abstractproperty
     def constant(self):
         return 'Should never get here'
+
 
 class Implementation(Base):
     @property
@@ -27,12 +22,13 @@ class Implementation(Base):
 
     constant = 'set by a class attribute'
 
+
 try:
     b = Base()
-    print 'Base.value:', b.value
-except Exception, err:
-    print 'ERROR:', str(err)
+    print('Base.value:', b.value)
+except Exception as e:
+    print('ERROR:', str(e))
 
 i = Implementation()
-print 'Implementation.value   :', i.value
-print 'Implementation.constant:', i.constant
+print('Implementation.value   :', i.value)
+print('Implementation.constant:', i.constant)

@@ -38,5 +38,4 @@ pip list --outdated
 一键升级所有过期的pip包
 sudo pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 sudo pip install -U
 
-
-
+pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
