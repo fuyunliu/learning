@@ -34,15 +34,14 @@ ls /etc/init.d
 4，启动、停止和重启某个服务，如postgresql
 /etc/init.d/postgresql start|restart|stop
 
-
 5，删除文件和文件夹
 rm filename 或 rm -r filename 或 rm -f filename
 rm -r filedir
 
-6，移动文件或文件夹
+6，移动文件或文件夹，也可用于重命名
 mv file1 file2
 mv file1 filedir1
-mv filedir1 filedir2mv 
+mv filedir1 filedir2mv
 
 7，显示所有环境变量
 export 或env 或printenv
@@ -87,33 +86,5 @@ cp test testdir
 
 复制文件夹testdir，产生新文件夹testdir1
 cp -r testdir testdir1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

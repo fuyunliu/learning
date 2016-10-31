@@ -1,15 +1,8 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""All configuration variables.
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import sysconfig
 
 bases = sysconfig.get_config_vars('base', 'platbase', 'userbase')
-print 'Base directories:'
+print('Base directories:')
 for b in bases:
-    print '  ', b
+    print('   ', b)

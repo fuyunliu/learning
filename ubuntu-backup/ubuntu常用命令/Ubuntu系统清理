@@ -39,3 +39,6 @@ pip list --outdated
 sudo pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 sudo pip install -U
 
 pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+
+查看将要安装软件的版本
+apt-cache policy golang-go

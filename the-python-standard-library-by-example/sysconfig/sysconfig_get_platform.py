@@ -1,12 +1,5 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Platform specifier for binary modules
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import sysconfig
 
-print sysconfig.get_platform()
+print(sysconfig.get_platform())

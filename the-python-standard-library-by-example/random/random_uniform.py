@@ -1,15 +1,7 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Generate random numbers
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import random
 
-for i in xrange(5):
-    print '%04.3f' % random.uniform(1, 100),
-print
-
+for i in range(5):
+    print('%04.3f' % random.uniform(1, 100), end=',')
+print()

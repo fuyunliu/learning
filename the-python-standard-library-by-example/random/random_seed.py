@@ -1,17 +1,10 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Generate random numbers
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import random
 
 random.seed(1)
 
-for i in xrange(5):
-    print '%04.3f' % random.random(),
-print
-
+# 多次运行产生的随机数是一样的
+for i in range(5):
+    print('%04.3f' % random.random())
+print()
