@@ -1,4 +1,4 @@
-"""学习requests"""
+# -*- coding: utf-8 -*-
 
 import requests
 

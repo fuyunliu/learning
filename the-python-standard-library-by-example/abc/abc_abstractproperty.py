@@ -32,4 +32,3 @@ except Exception as e:
 i = Implementation()
 print('Implementation.value   :', i.value)
 print('Implementation.constant:', i.constant)
-

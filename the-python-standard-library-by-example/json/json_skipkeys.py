@@ -1,22 +1,15 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2009 Doug Hellmann All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import json
 
-data = [ { 'a':'A', 'b':(2, 4), 'c':3.0, ('d',):'D tuple' } ]
+data = [{'a': 'A', 'b': (2, 4), 'c': 3.0, ('d',): 'D tuple'}]
 
-print 'First attempt'
+print('First attempt')
 try:
-    print json.dumps(data)
-except (TypeError, ValueError), err:
-    print 'ERROR:', err
+    print(json.dumps(data))
+except (TypeError, ValueError) as e:
+    print('ERROR:', e)
 
-print
-print 'Second attempt'
-print json.dumps(data, skipkeys=True)
+print()
+print('Second attempt')
+print(json.dumps(data, skipkeys=True))
