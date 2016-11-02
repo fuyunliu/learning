@@ -15,6 +15,7 @@ class MyEncoder(json.JSONEncoder):
         d.update(obj.__dict__)
         return d
 
+
 obj = json_myobj.MyObj('internal data')
 print(obj)
 print(MyEncoder().encode(obj))
