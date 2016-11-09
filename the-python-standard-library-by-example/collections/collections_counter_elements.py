@@ -1,15 +1,8 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Produce the elements of the counter.
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import collections
 
 c = collections.Counter('extremely')
 c['z'] = 0
-print c
-print list(c.elements())
+print(c)
+print(list(c.elements()))
