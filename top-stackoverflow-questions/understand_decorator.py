@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-"""understanding python decorator"""
 
 
 # example 1
