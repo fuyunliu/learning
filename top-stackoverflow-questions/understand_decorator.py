@@ -313,8 +313,203 @@ class Mary(object):
 
     @a_decorator_passing_arbitrary_arguments
     def say_your_age(self, lie=-3):  # 可以加入一个默认值
-        print("I am %s, what did you think ?" % (self.age + lie))
+        print("I am %s, what did you think?" % (self.age + lie))
 
 
 m = Mary()
 m.say_your_age(lie=-5)  # 这里又覆盖了默认值，可以变换着看一下
+print_line(50)
+
+
+# 像上面的把参数传给被装饰器返回的函数，实际上就是被定义在装饰器内部的包装器接收了。
+# 那如何给装饰器传参数呢？再来回顾一下装饰器的用法
+def my_decorator(func):
+    print("I am an ordinary function")
+
+    def wrapper():
+        print("I am function returned by the decorator")
+        func()
+    return wrapper
+
+
+def lazy_function():
+    print("zzzzzzzz")
+
+
+# 装饰函数的过程其实调用了装饰器函数，下面这句有打印信息。
+decorated_function = my_decorator(lazy_function)
+
+
+# 这样也是，输出"I am an ordinary function"
+@my_decorator
+def lazy_function():
+    print("zzzzzzzz")
+
+
+print_line(50)
+
+
+# 再用一层函数包装装饰器，我们就可以传参数给装饰器了，类似闭包，动态返回装饰器。
+def decorator_maker():
+
+    print("I make decorators! I am executed only once: " +
+          "when you make me create a decorator.")
+
+    def my_decorator(func):
+
+        print("I am a decorator! I am executed only when you decorate a function.")
+
+        def wrapped():
+            print("I am the wrapper around the decorated function. "
+                  "I am called when you call the decorated function. "
+                  "As the wrapper, I return the RESULT of the decorated function.")
+            return func()
+
+        print("As the decorator, I return the wrapped function.")
+
+        return wrapped
+
+    print("As a decorator maker, I return a decorator")
+    return my_decorator
+
+
+# 用函数创建一个装饰器
+new_decorator = decorator_maker()
+print()
+
+
+def decorated_function():
+    print("I am the decorated function.")
+
+
+# 用刚刚创建的装饰器装饰函数
+decorated_function = new_decorator(decorated_function)
+print()
+# 执行被装饰过的函数
+decorated_function()
+print_line(50)
+# 用一行代码概括上面的
+decorator_maker()(decorated_function)()
+print_line(50)
+
+
+# 用@语法糖简化
+@decorator_maker()
+def decorated_function():
+    print("I am the decorated function.")
+
+
+# 执行一下
+decorated_function()
+print_line(50)
+
+
+# 现在来写一个带参数的装饰器生成函数
+def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
+
+    print("I make decorators! And I accept arguments:", decorator_arg1, decorator_arg2)
+
+    def my_decorator(func):
+        # 这里传参的能力借鉴了闭包
+        # 参考 http://stackoverflow.com/questions/13857/can-you-explain-closures-as-they-relate-to-python
+        print("I am the decorator. Somehow you passed me arguments:", decorator_arg1, decorator_arg2)
+
+        # 不要忘了装饰器参数和函数参数
+        def wrapped(function_arg1, function_arg2):
+            print("I am the wrapper around the decorated function.\n"
+                  "I can access all the variables\n"
+                  "\t- from the decorator: {0} {1}\n"
+                  "\t- from the function call: {2} {3}\n"
+                  "Then I can pass them to the decorated function"
+                  .format(decorator_arg1, decorator_arg2,
+                          function_arg1, function_arg2))
+            return func(function_arg1, function_arg2)
+
+        return wrapped
+
+    return my_decorator
+
+
+@decorator_maker_with_arguments("Leonard", "Sheldon")
+def decorated_function_with_arguments(function_arg1, function_arg2):
+    print("I am the decorated function and only knows about my arguments: {0}"
+          " {1}".format(function_arg1, function_arg2))
+
+
+decorated_function_with_arguments("Rajesh", "Howard")
+print_line(50)
+
+
+# 参数还可以设置成变量
+c1 = "Penny"
+c2 = "Leslie"
+
+
+@decorator_maker_with_arguments("Leonard", c1)
+def decorated_function_with_arguments(function_arg1, function_arg2):
+    print("I am the decorated function and only knows about my arguments:"
+          " {0} {1}".format(function_arg1, function_arg2))
+
+
+decorated_function_with_arguments(c2, "Howard")
+print_line(50)
+
+
+# 最后神奇的一招，如何装饰一个装饰器，动态地返回一个可以带任意参数的装饰器。
+def decorator_with_args(decorator_to_enhance):
+    """
+    这个函数接收一个装饰器作为参数，返回一个被装饰的装饰器
+    这没什么高深，只不过是为了给装饰器传参而已
+    """
+
+    def decorator_maker(*args, **kwargs):
+
+        # 我们动态地建立一个只接收一个函数的装饰器
+        # 但是他能接收来自maker的参数
+        def decorator_wrapper(func):
+
+            # 最后我们返回原始的装饰器，毕竟它只是普通的函数
+            # 唯一的陷阱：装饰器必须有这个特殊的，否则将不会奏效
+            return decorator_to_enhance(func, *args, **kwargs)
+
+        return decorator_wrapper
+
+    return decorator_maker
+
+
+# 把装饰器语法糖加到装饰器上面，注意这个装饰器是用来装饰函数的
+@decorator_with_args
+def decorated_decorator(func, *args, **kwargs):
+    def wrapper(function_arg1, function_arg2):
+        print("Decorated with", args, kwargs)
+        return func(function_arg1, function_arg2)
+    return wrapper
+
+
+# 现在用被装饰过的装饰器装饰你的函数
+@decorated_decorator(1, 2, 3, a=1, b=2, c=3)
+def decorated_function(function_arg1, function_arg2):
+    print("Hello", function_arg1, function_arg2)
+
+
+# 调用被装饰器装饰过的函数
+decorated_function("world,", "Awesome!")
+print_line(50)
+
+
+# 是不是被绕晕了，来看看终极调用过程
+# 首先这是一个普通的装饰器
+def normal_decorator(func, *args, **kwargs):
+    def wrapper(function_arg1, function_arg2):
+        print("Normal decorator decorated with", args, kwargs)
+        return func(function_arg1, function_arg2)
+    return wrapper
+
+
+# 这是一个普通的函数
+def normal_function(function_arg1, function_arg2):
+    print("Hello", function_arg1, function_arg2)
+
+
+# 终极变态调用过程如下
+decorator_with_args(normal_decorator)(1, 2, 3, a=1, b=2, c=3)(normal_function)('world,', 'Awesome!')
