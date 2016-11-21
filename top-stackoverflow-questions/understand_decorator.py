@@ -513,3 +513,118 @@ def normal_function(function_arg1, function_arg2):
 
 # 终极变态调用过程如下
 decorator_with_args(normal_decorator)(1, 2, 3, a=1, b=2, c=3)(normal_function)('world,', 'Awesome!')
+print_line(50)
+
+
+# 现在来关注一个小问题，被装饰器装饰的函数的名字__name__改变了。
+# 幸好我们有functools.wraps()函数，它可以复制函数的名字，模块和文档给它的包装器。
+def foo():
+    print("foo")
+
+
+print(foo.__name__)
+
+
+def bar(func):
+    def wrapper():
+        print("bar")
+        return func()
+    return wrapper
+
+
+@bar
+def foo():
+    print("foo")
+
+
+print(foo.__name__)
+
+
+# 下面用functools.wraps()来修复
+import functools
+def bar(func):
+    @functools.wraps(func)
+    def wrapper():
+        print("bar")
+        return func()
+    return wrapper
+
+
+@bar
+def foo():
+    print("foo")
+
+
+print(foo.__name__)
+print_line(50)
+
+
+# 如何使用装饰器
+def benchmark(func):
+    """
+    A decorator that prints the time a function takes
+    to execute.
+    """
+    import time
+
+    def wrapper(*args, **kwargs):
+        t = time.clock()
+        res = func(*args, **kwargs)
+        print(func.__name__, time.clock() - t)
+        return res
+    return wrapper
+
+
+def logging(func):
+    """
+    A decorator that logs the activity of the script.
+    (it actually just prints it, but it could be logging!)
+    """
+    def wrapper(*args, **kwargs):
+        res = func(*args, **kwargs)
+        print(func.__name__, args, kwargs)
+        return res
+    return wrapper
+
+
+def counter(func):
+    """
+    A decorator that counts and prints the number of times a function has been executed
+    """
+    def wrapper(*args, **kwargs):
+        wrapper.count = wrapper.count + 1
+        res = func(*args, **kwargs)
+        print("{0} has been used: {1}x".format(func.__name__, wrapper.count))
+        return res
+    wrapper.count = 0
+    return wrapper
+
+
+@counter
+@benchmark
+@logging
+def reverse_string(string):
+    return str(reversed(string))
+
+
+print(reverse_string("Able was I ere I saw Elba"))
+print(reverse_string("A man, a plan, a canoe, pasta, heros, rajahs, a coloratura, maps, snipe, percale, macaroni, a gag, a banana bag, a tan, a tag, a banana bag again (or a camel), a crepe, pins, Spam, a rut, a Rolo, cash, a jar, sore hats, a peon, a canal: Panama!"))
+print_line(50)
+
+
+# 不用重写装饰器而可以用他们来做任何事
+@counter
+@benchmark
+@logging
+def get_html_text():
+    import requests
+    import pprint
+    try:
+        r = requests.get("http://httpbin.org/html")
+        pprint.pprint(r.text)
+    except:
+        return "I got nothing!"
+
+
+get_html_text()
+get_html_text()
