@@ -1,17 +1,15 @@
-#!/usr/bin/env python
-"""Simple logging to stderr using different levels.
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
 import logging
 import sys
 
-LEVELS = { 'debug':logging.DEBUG,
-           'info':logging.INFO,
-           'warning':logging.WARNING,
-           'error':logging.ERROR,
-           'critical':logging.CRITICAL,
-           }
+
+LEVELS = {'debug': logging.DEBUG,
+          'info': logging.INFO,
+          'warning': logging.WARNING,
+          'error': logging.ERROR,
+          'critical': logging.CRITICAL,
+          }
 
 if len(sys.argv) > 1:
     level_name = sys.argv[1]

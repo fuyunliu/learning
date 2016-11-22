@@ -1,19 +1,20 @@
-#!/usr/bin/env python
-"""Example use of Python's logging module writing to a file.
-"""
-#end_pymotw_header
+# -*- coding: utf-8 -*-
 
+import os
 import logging
 
-LOG_FILENAME = 'logging_example.out'
+
+LOG_FILENAME = os.path.join(os.path.dirname(__file__), 'debug.log')
 logging.basicConfig(filename=LOG_FILENAME,
                     level=logging.DEBUG,
                     )
+
 
 logging.debug('This message should go to the log file')
 
 with open(LOG_FILENAME, 'rt') as f:
     body = f.read()
 
-print 'FILE:'
-print body
+
+print('FILE:')
+print(body)
