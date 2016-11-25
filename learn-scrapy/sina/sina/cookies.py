@@ -27,7 +27,7 @@ class SinaCookie(object):
         "加密密码"
         pubkey = int(pubkey, 16)
         rsa_pubkey = rsa.PublicKey(pubkey, 65537)
-        rsa_code = str(servertime) + '\t' + nonce + '\n' + self.password
+        rsa_code = servertime + '\t' + nonce + '\n' + self.password
         sp = rsa.encrypt(rsa_code.encode(), rsa_pubkey)
         return binascii.b2a_hex(sp).decode()
 
@@ -44,7 +44,8 @@ class SinaCookie(object):
         r = requests.get(url, params=payload, headers=random.choice(headers))
         json_str = re.findall(r'(\{.*?\})', r.text)[0]
         data = json.loads(json_str)
-        return data['servertime'], data['nonce'], data['pubkey'], data['rsakv']
+        return tuple(str(data[k])
+                     for k in ['servertime', 'nonce', 'pubkey', 'rsakv'])
 
     def get_cookie(self):
         su = self.encrypt_username()
