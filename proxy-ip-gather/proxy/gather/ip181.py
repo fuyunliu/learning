@@ -22,21 +22,27 @@ class ProxyIP(object):
         self.conn = conn
         self.session = requests.Session()
         self.session.headers['user-agent'] = random.choice(agents)
-        self.list_url = "http://www.ip181.com/"
+        self.list_url = "http://www.ip181.com/daili/{page}.html"
         self.test_url = "http://httpbin.org/ip"
         self.insert_sql = """insert into proxy_ip (ip, port, type,
             protocol, area) values (%s, %s, %s, %s, %s)"""
 
     def parse_list(self):
-        try:
-            r = self.session.get(self.list_url)
-            r.encoding = 'gb2312'
-            soup = BeautifulSoup(r.text, 'lxml')
-            trs = soup.select('table tbody tr')
-            values = self.parse_detail(trs)
-            self.save_data(values)
-        except Exception as e:
-            print(str(e))
+        page = 1
+        while True:
+            try:
+                url = self.list_url.format(page=page)
+                r = self.session.get(url)
+                r.encoding = 'gb2312'
+                soup = BeautifulSoup(r.text, 'lxml')
+                trs = soup.select('table tbody tr')
+                values = self.parse_detail(trs)
+                self.save_data(values)
+                print("解析第【%s】页完成！" % page)
+                page += 1
+            except Exception as e:
+                print(str(e))
+                print("解析第【%s】页出错..." % page)
 
     def parse_detail(self, trs):
         values = []
