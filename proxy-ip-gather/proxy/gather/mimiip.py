@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import random
 import requests
 import pymysql.cursors
 from bs4 import BeautifulSoup
+from headers import agents
 
 
 conn = pymysql.connect(
@@ -12,22 +14,18 @@ conn = pymysql.connect(
     db='test',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor)
-headers = {
-    'Cookie': '_gat=1; channelid=0; sid=1479882146129815; _ga=GA1.2.19895386.1476414255',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
-}
 
 
-class KuaiDaiLi(object):
+class MimiIp(object):
 
     def __init__(self):
         self.conn = conn
         self.session = requests.Session()
-        self.session.headers = headers
-        self.list_url = "http://www.kuaidaili.com/free/inha/{page}/"
+        self.session.headers['user-agent'] = random.choice(agents)
+        self.list_url = "http://www.mimiip.com/gngao/{page}"
         self.test_url = "http://httpbin.org/ip"
-        self.insert_sql = """insert into proxy_ip (ip, port, type,
-            protocol, area) values (%s, %s, %s, %s, %s)"""
+        self.insert_sql = """insert into proxy_ip (ip, port, area, type,
+            protocol) values (%s, %s, %s, %s, %s)"""
 
     def parse_list(self):
         page = 1
@@ -36,7 +34,7 @@ class KuaiDaiLi(object):
                 url = self.list_url.format(page=page)
                 r = self.session.get(url)
                 soup = BeautifulSoup(r.text, 'lxml')
-                trs = soup.select('#list > table > tbody > tr')
+                trs = soup.select('table.list tr')
                 values = self.parse_detail(trs)
                 self.save_data(values)
                 print("解析第【%s】页完成！" % page)
@@ -47,6 +45,7 @@ class KuaiDaiLi(object):
 
     def parse_detail(self, trs):
         values = []
+        del trs[0]
         for tr in trs:
             tds = tr('td')
             one = tuple(td.get_text(strip=True) for td in tds[:5])
@@ -85,5 +84,5 @@ class KuaiDaiLi(object):
 
 
 if __name__ == '__main__':
-    k = KuaiDaiLi()
-    k.control()
+    m = MimiIp()
+    m.control()
