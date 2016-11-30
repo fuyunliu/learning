@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import random
 import requests
 import pymysql.cursors
-from selenium import webdriver
+from bs4 import BeautifulSoup
+from headers import agents
 
 
 conn = pymysql.connect(
@@ -14,27 +16,35 @@ conn = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor)
 
 
-class ChinaProxy(object):
+class ProxyIP(object):
 
     def __init__(self):
         self.conn = conn
-        self.list_url = "http://cn-proxy.com/"
+        self.session = requests.Session()
+        self.session.headers['user-agent'] = random.choice(agents)
+        self.list_url = "http://www.ip181.com/"
         self.test_url = "http://httpbin.org/ip"
-        self.insert_sql = """insert into proxy_ip (ip, port, area, type,
-            protocol) values (%s, %s, %s, '高匿', 'HTTP')"""
+        self.insert_sql = """insert into proxy_ip (ip, port, type,
+            protocol, area) values (%s, %s, %s, %s, %s)"""
 
     def parse_list(self):
-        driver = webdriver.PhantomJS()
-        driver.get(self.list_url)
-        trs = driver.find_elements_by_xpath("(//table)[2]/tbody/tr")
-        values = self.parse_detail(trs)
-        self.save_data(values)
+        try:
+            r = self.session.get(self.list_url)
+            r.encoding = 'gb2312'
+            soup = BeautifulSoup(r.text, 'lxml')
+            trs = soup.select('table tbody tr')
+            values = self.parse_detail(trs)
+            self.save_data(values)
+        except Exception as e:
+            print(str(e))
 
     def parse_detail(self, trs):
         values = []
+        del trs[0]
         for tr in trs:
-            tds = tr.find_elements_by_tag_name('td')
-            one = tuple(td.text for td in tds[:3])
+            tds = tr('td')
+            del tds[4]
+            one = tuple(td.get_text(strip=True) for td in tds[:5])
             if self.test_ip(one):
                 values.append(one)
         return values
@@ -70,5 +80,5 @@ class ChinaProxy(object):
 
 
 if __name__ == '__main__':
-    c = ChinaProxy()
-    c.control()
+    p = ProxyIP()
+    p.control()
