@@ -4,7 +4,7 @@
 import random
 import requests
 from bs4 import BeautifulSoup
-from headers import headers
+from headers import agents
 
 
 class DoubanCookie(object):

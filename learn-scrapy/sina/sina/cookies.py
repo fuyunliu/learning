@@ -8,7 +8,7 @@ import random
 import requests
 import re
 import rsa
-from headers import headers
+from headers import agents
 
 
 class SinaCookie(object):
@@ -41,7 +41,7 @@ class SinaCookie(object):
             'rsakt': 'mod',
             'client': 'ssologin.js(v1.4.18)'
         }
-        r = requests.get(url, params=payload, headers=random.choice(headers))
+        r = requests.get(url, params=payload, headers=random.choice(agents))
         json_str = re.findall(r'(\{.*?\})', r.text)[0]
         data = json.loads(json_str)
         return tuple(str(data[k])
@@ -73,7 +73,7 @@ class SinaCookie(object):
             'returntype': 'META'
         }
         r = requests.post(self.login_url, data=payload,
-                          headers=random.choice(headers))
+                          headers=random.choice(agents))
         return r.cookies.get_dict()
 
 

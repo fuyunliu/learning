@@ -59,3 +59,12 @@ class CleanProxy(object):
 if __name__ == '__main__':
     c = CleanProxy()
     c.control()
+
+    # import pprint
+    # c = CleanProxy()
+    # rows = c.fetch_all()
+    # proxies = []
+    # for row in rows:
+    #     proxy = "http://%s:%s" % (row['ip'], row['port'])
+    #     proxies.append(proxy)
+    # pprint.pprint(proxies)
