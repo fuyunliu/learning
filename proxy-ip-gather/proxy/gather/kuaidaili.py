@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import random
 import requests
 import pymysql.cursors
 from bs4 import BeautifulSoup
+from headers import agents
 
 
 conn = pymysql.connect(
@@ -12,10 +14,9 @@ conn = pymysql.connect(
     db='test',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor)
-headers = {
-    'Cookie': '_gat=1; channelid=0; sid=1479882146129815; _ga=GA1.2.19895386.1476414255',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
-}
+cookies = [
+"_gat=1; channelid=0; sid=1480476741110402; _ga=GA1.2.19895386.1476414255"
+]
 
 
 class KuaiDaiLi(object):
@@ -23,7 +24,8 @@ class KuaiDaiLi(object):
     def __init__(self):
         self.conn = conn
         self.session = requests.Session()
-        self.session.headers = headers
+        self.session.headers['user-agent'] = random.choice(agents)
+        self.session.headers['cookie'] = random.choice(cookies)
         self.list_url = "http://www.kuaidaili.com/free/inha/{page}/"
         self.test_url = "http://httpbin.org/ip"
         self.insert_sql = """insert into proxy_ip (ip, port, type,
