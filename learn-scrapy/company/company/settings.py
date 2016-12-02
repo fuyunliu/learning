@@ -14,9 +14,9 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": 120
 }
 ITEM_PIPELINES = {
-    #'company.pipelines.HaiguanPipeline': 300,
+    'company.pipelines.HaiguanPipeline': 300,
     #'company.pipelines.NaShuiPipeline': 300,
-    'company.pipelines.SecurePipeline': 300
+    #'company.pipelines.SecurePipeline': 300
 }
 DATABASES = {
     'oracle': {

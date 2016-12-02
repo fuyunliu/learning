@@ -10,7 +10,7 @@ list_url = "http://media.chinasafety.gov.cn:8090/zhengfu3/aqxkzcx_jg.jsp?current
 
 class SecureSpider(scrapy.Spider):
     name = 'secure'
-    start_urls = [list_url.format(p=p) for p in range(200, 421)]
+    start_urls = [list_url.format(p=p) for p in range(400, 421)]
 
     def parse(self, response):
         html = response.xpath("(//table)[2]").extract_first()

@@ -28,7 +28,7 @@ class GatherXiCi(object):
             protocol) values (%s, %s, %s, %s, %s)"""
 
     def parse_list(self):
-        for p in range(1, 11):
+        for p in range(1, 6):
             try:
                 url = self.list_url.format(page=p)
                 r = self.session.get(url)
