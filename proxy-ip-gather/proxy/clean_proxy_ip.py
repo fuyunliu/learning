@@ -19,7 +19,7 @@ class CleanProxy(object):
 
     def __init__(self):
         self.conn = conn
-        self.url = "http://httpbin.org/ip"
+        self.test_url = "http://httpbin.org/ip"
         self.fetch_sql = "select id, ip, port from proxy_ip"
         self.delete_sql = "delete from proxy_ip where id = {id}"
 
@@ -40,7 +40,7 @@ class CleanProxy(object):
             id, ip, port = row['id'], row['ip'], row['port']
             proxies = {'http': 'http://{ip}:{port}'.format(ip=ip, port=port)}
             try:
-                r = requests.get(self.url, proxies=proxies, timeout=5)
+                r = requests.get(self.test_url, proxies=proxies, timeout=5)
                 origin_ip = r.json().get('origin')
                 if origin_ip != ip:
                     self.delete(id)
@@ -57,14 +57,14 @@ class CleanProxy(object):
 
 
 if __name__ == '__main__':
-    c = CleanProxy()
-    c.control()
-
-    # import pprint
     # c = CleanProxy()
-    # rows = c.fetch_all()
-    # proxies = []
-    # for row in rows:
-    #     proxy = "http://%s:%s" % (row['ip'], row['port'])
-    #     proxies.append(proxy)
-    # pprint.pprint(proxies)
+    # c.control()
+
+    import pprint
+    c = CleanProxy()
+    rows = c.fetch_all()
+    proxies = []
+    for row in rows:
+        proxy = "http://%s:%s" % (row['ip'], row['port'])
+        proxies.append(proxy)
+    pprint.pprint(proxies)

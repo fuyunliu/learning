@@ -28,20 +28,18 @@ class GatherXiCi(object):
             protocol) values (%s, %s, %s, %s, %s)"""
 
     def parse_list(self):
-        page = 1
-        while True:
+        for p in range(1, 11):
             try:
-                url = self.list_url.format(page=page)
+                url = self.list_url.format(page=p)
                 r = self.session.get(url)
                 soup = BeautifulSoup(r.text, 'lxml')
                 trs = soup.select('#ip_list tr')
                 values = self.parse_detail(trs)
                 self.save_data(values)
-                print("解析第【%s】页完成！" % page)
-                page += 1
+                print("解析第【%s】页完成！" % p)
             except Exception as e:
                 print(str(e))
-                print("解析第【%s】页出错..." % page)
+                print("解析第【%s】页出错..." % p)
 
     def parse_detail(self, trs):
         values = []

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import random
-from haiguan.headers import agents, proxies
+from company.headers import agents, proxies
 
 
 class UserAgentMiddleware(object):
