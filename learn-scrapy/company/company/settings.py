@@ -18,6 +18,7 @@ ITEM_PIPELINES = {
     'company.pipelines.NaShuiPipeline': 300,
     # 'company.pipelines.SecurePipeline': 300,
     # 'company.pipelines.EnvironPipeline': 300,
+    # 'company.pipelines.GmpgspPipeline': 300,
 }
 DATABASES = {
     'oracle': {

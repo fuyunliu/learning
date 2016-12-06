@@ -10,7 +10,7 @@ list_url = "http://hd.chinatax.gov.cn/fagui/action/InitCredit.do?articleField01=
 
 class HaiGuanSpider(scrapy.Spider):
     name = 'nashui'
-    start_urls = [list_url.format(p=p) for p in range(21520, 25987)]
+    start_urls = [list_url.format(p=p) for p in range(10000, 20001)]
 
     def parse(self, response):
         html = response.xpath("//td[@class='sv_hei']/table[1]").extract_first()

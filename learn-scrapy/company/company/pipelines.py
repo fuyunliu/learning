@@ -3,7 +3,8 @@
 import os
 import cx_Oracle
 from twisted.enterprise import adbapi
-from company.items import HaiguanItem, NaShuiItem, SecureItem, EnvironItem
+from company.items import (
+    HaiguanItem, NaShuiItem, SecureItem, EnvironItem, GmpgspItem)
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
@@ -78,5 +79,16 @@ class EnvironPipeline(BasePiPeline):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
         table = 'company_environ_monitor'
         columns = list(EnvironItem.fields.keys())
+        return cls(dbargs=dbargs,
+                   insert_sql=cls.create_insert_sql(table, *columns))
+
+
+class GmpgspPipeline(BasePiPeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        dbargs = crawler.settings.get('DATABASES').get('oracle')
+        table = 'company_gmp_gsp_license'
+        columns = list(GmpgspItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
