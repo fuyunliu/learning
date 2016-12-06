@@ -40,3 +40,16 @@ class SecureItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
+
+
+class EnvironItem(scrapy.Item):
+
+    company_name = scrapy.Field()
+    monitor_area_code = scrapy.Field()
+    monitor_legal_name_code = scrapy.Field()
+    monitor_class = scrapy.Field()
+    monitor_province = scrapy.Field()
+    monitor_year = scrapy.Field()
+    company_gather_time = scrapy.Field()
+    gather_id = scrapy.Field()
+    chanle_id = scrapy.Field()

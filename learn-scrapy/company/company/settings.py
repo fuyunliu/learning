@@ -4,7 +4,7 @@ BOT_NAME = 'company'
 SPIDER_MODULES = ['company.spiders']
 NEWSPIDER_MODULE = 'company.spiders'
 ROBOTSTXT_OBEY = False
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 5
 RETRY_TIMES = 10
 RETRY_HTTP_CODES = [500, 501, 502, 503, 504, 400, 403, 404, 408]
 DOWNLOADER_MIDDLEWARES = {
@@ -14,9 +14,10 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": 120
 }
 ITEM_PIPELINES = {
-    'company.pipelines.HaiguanPipeline': 300,
-    #'company.pipelines.NaShuiPipeline': 300,
-    #'company.pipelines.SecurePipeline': 300
+    # 'company.pipelines.HaiguanPipeline': 300,
+    'company.pipelines.NaShuiPipeline': 300,
+    # 'company.pipelines.SecurePipeline': 300,  # 采完
+    # 'company.pipelines.EnvironPipeline': 300,
 }
 DATABASES = {
     'oracle': {

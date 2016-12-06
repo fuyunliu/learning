@@ -19,8 +19,7 @@ class BasePiPeline(object):
         self.dbpool.close()
 
     def process_item(self, item, spider):
-        d = self.dbpool.runInteraction(self._do_insert, item, spider)
-        return d
+        self.dbpool.runInteraction(self._do_insert, item, spider)
 
     def _do_insert(self, txn, item, spider):
         try:
@@ -67,5 +66,16 @@ class SecurePipeline(BasePiPeline):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
         table = crawler.settings.get('SECURE_TABLE')
         columns = crawler.settings.get('SECURE_COLUMNS')
+        return cls(dbargs=dbargs,
+                   insert_sql=cls.create_insert_sql(table, *columns))
+
+
+class EnvironPipeline(BasePiPeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        dbargs = crawler.settings.get('DATABASES').get('oracle')
+        table = crawler.settings.get('ENVIRON_TABLE')
+        columns = crawler.settings.get('ENVIRON_COLUMNS')
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
