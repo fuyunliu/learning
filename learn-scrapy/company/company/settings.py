@@ -16,14 +16,15 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
     # 'company.pipelines.HaiguanPipeline': 300,
     'company.pipelines.NaShuiPipeline': 300,
-    # 'company.pipelines.SecurePipeline': 300,  # 采完
+    # 'company.pipelines.SecurePipeline': 300,
     # 'company.pipelines.EnvironPipeline': 300,
 }
 DATABASES = {
     'oracle': {
         'user': 'username',
         'password': 'password',
-        'dsn': 'dsn'
+        'dsn': 'dsn',
+        'threaded': True
     }
 }
 

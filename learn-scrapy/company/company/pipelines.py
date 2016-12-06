@@ -3,6 +3,7 @@
 import os
 import cx_Oracle
 from twisted.enterprise import adbapi
+from company.items import HaiguanItem, NaShuiItem, SecureItem, EnvironItem
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
@@ -42,8 +43,8 @@ class HaiguanPipeline(BasePiPeline):
     @classmethod
     def from_crawler(cls, crawler):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
-        table = crawler.settings.get('HAIGUAN_TABLE')
-        columns = crawler.settings.get('HAIGUAN_COLUMNS')
+        table = 'company_custom_rating'
+        columns = list(HaiguanItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
 
@@ -53,8 +54,8 @@ class NaShuiPipeline(BasePiPeline):
     @classmethod
     def from_crawler(cls, crawler):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
-        table = crawler.settings.get('NASHUI_TABLE')
-        columns = crawler.settings.get('NASHUI_COLUMNS')
+        table = 'company_tax_rating'
+        columns = list(NaShuiItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
 
@@ -64,8 +65,8 @@ class SecurePipeline(BasePiPeline):
     @classmethod
     def from_crawler(cls, crawler):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
-        table = crawler.settings.get('SECURE_TABLE')
-        columns = crawler.settings.get('SECURE_COLUMNS')
+        table = 'company_secure_license'
+        columns = list(SecureItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
 
@@ -75,7 +76,7 @@ class EnvironPipeline(BasePiPeline):
     @classmethod
     def from_crawler(cls, crawler):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
-        table = crawler.settings.get('ENVIRON_TABLE')
-        columns = crawler.settings.get('ENVIRON_COLUMNS')
+        table = 'company_environ_monitor'
+        columns = list(EnvironItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
