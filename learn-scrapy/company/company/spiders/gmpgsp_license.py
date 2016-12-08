@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from company.items import GmpgspItem
 
-list_url = "http://app1.sfda.gov.cn/datasearch/face3/search.jsp?tableId=23&bcId=118715589530474392063703010776&curstart={p}&tableName=TABLE23&viewtitleName=COLUMN152&viewsubTitleName=COLUMN151&tableView=GMP%25E8%25AE%25A4%25E8%25AF%2581"
+list_url = "http://app1.sfda.gov.cn/datasearch/face3/search.jsp?tableId=23&bcId=118715589530474392063703010776&curstart={p}"
 detail_url = "http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=23&tableName=TABLE23&tableView=&Id={Id}"
 
 
