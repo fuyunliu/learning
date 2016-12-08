@@ -3,6 +3,10 @@
 import scrapy
 
 
+class HaiGuanIdItem(scrapy.Item):
+    Id = scrapy.Field()
+
+
 class HaiguanItem(scrapy.Item):
 
     company_name = scrapy.Field()

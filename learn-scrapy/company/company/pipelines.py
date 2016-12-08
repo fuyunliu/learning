@@ -2,6 +2,7 @@
 
 import os
 import cx_Oracle
+import redis
 from twisted.enterprise import adbapi
 from company.items import (
     HaiguanItem, NaShuiItem, SecureItem, EnvironItem, GmpgspItem)
@@ -92,3 +93,20 @@ class GmpgspPipeline(BasePiPeline):
         columns = list(GmpgspItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
+
+
+class HaiGuanIdPipeline(object):
+
+    def __init__(self):
+        self.key = 'company_haiguan_id'
+
+    def open_spider(self, spider):
+        self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+
+    def close_spider(self, spider):
+        self.dbpool.disconnect()
+
+    def process_item(self, item, spider):
+        r = redis.Redis(connection_pool=self.dbpool)
+        r.sadd(self.key, item['Id'])
+        spider.log("成功添加： %s" % item['Id'])
