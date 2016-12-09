@@ -27,7 +27,7 @@ class HaiGuanSpider(scrapy.Spider):
         for href in response.xpath(
                 "//div[@class='qy_nr blue']//h2/a/@href").extract():
             try:
-                Id = re.findall(r'/infos(\d+)\.aspx', href)[0]
+                Id = re.findall(r'/infos(\w+).aspx', href)[0]
                 item = HaiGuanIdItem()
                 item['Id'] = Id
                 yield item
