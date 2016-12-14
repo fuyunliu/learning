@@ -131,5 +131,7 @@ def create_app(redis_host='localhost', redis_port=6379, with_static=True):
 
 if __name__ == '__main__':
     from werkzeug.serving import run_simple
+    context = ('ssl.cert', 'ssl.key')
     app = create_app()
-    run_simple('localhost', 8000, app, use_debugger=True, use_reloader=True)
+    run_simple('localhost', 8000, app, use_debugger=True,
+               use_reloader=True, ssl_context=context)
