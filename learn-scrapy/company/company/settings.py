@@ -15,11 +15,10 @@ DOWNLOADER_MIDDLEWARES = {
 }
 ITEM_PIPELINES = {
     # 'company.pipelines.HaiguanPipeline': 300,
-    # 'company.pipelines.NaShuiPipeline': 300,
+    'company.pipelines.NaShuiPipeline': 300,
     # 'company.pipelines.SecurePipeline': 300,
     # 'company.pipelines.EnvironPipeline': 300,
-    # 'company.pipelines.GmpgspPipeline': 300,
-    'company.pipelines.HaiGuanIdPipeline': 300,
+    # 'company.pipelines.HaiGuanIdPipeline': 300,
 }
 DATABASES = {
     'oracle': {

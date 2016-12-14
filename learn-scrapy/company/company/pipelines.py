@@ -5,7 +5,7 @@ import cx_Oracle
 import redis
 from twisted.enterprise import adbapi
 from company.items import (
-    HaiguanItem, NaShuiItem, SecureItem, EnvironItem, GmpgspItem)
+    HaiguanItem, NaShuiItem, SecureItem, EnvironItem)
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
@@ -84,21 +84,11 @@ class EnvironPipeline(BasePiPeline):
                    insert_sql=cls.create_insert_sql(table, *columns))
 
 
-class GmpgspPipeline(BasePiPeline):
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        dbargs = crawler.settings.get('DATABASES').get('oracle')
-        table = 'company_gmp_gsp_license'
-        columns = list(GmpgspItem.fields.keys())
-        return cls(dbargs=dbargs,
-                   insert_sql=cls.create_insert_sql(table, *columns))
-
-
 class HaiGuanIdPipeline(object):
 
     def __init__(self):
-        self.key = 'company_haiguan_id'
+        self.set_key = 'company_haiguan_id'  # 维护一个集合作为索引
+        self.list_key = 'company_haiguan_detail_id'  # 列表更好地用于切片迭代
 
     def open_spider(self, spider):
         self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
@@ -108,5 +98,7 @@ class HaiGuanIdPipeline(object):
 
     def process_item(self, item, spider):
         r = redis.Redis(connection_pool=self.dbpool)
-        r.sadd(self.key, item['Id'])
+        if not r.sismember(self.set_key):
+            r.sadd(self.set_key, item['Id'])
+            r.lpush(self.list_key, item['Id'])
         spider.log("成功添加： %s" % item['Id'])

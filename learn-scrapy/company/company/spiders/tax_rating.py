@@ -5,12 +5,12 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from company.items import NaShuiItem
 
-list_url = "http://hd.chinatax.gov.cn/fagui/action/InitCredit.do?articleField01=&articleField02=&articleField03=2015&articleField06=&taxCode=&cPage={p}&randCode=&flag=1"
+list_url = "http://hd.chinatax.gov.cn/fagui/action/InitCredit.do?articleField01=&articleField02=&articleField03=2014&articleField06=&taxCode=&cPage={p}&randCode=&flag=1"
 
 
 class HaiGuanSpider(scrapy.Spider):
     name = 'nashui'
-    start_urls = [list_url.format(p=p) for p in range(10000, 20001)]
+    start_urls = [list_url.format(p=p) for p in range(5000, 10000)]
 
     def parse(self, response):
         html = response.xpath("//td[@class='sv_hei']/table[1]").extract_first()

@@ -57,23 +57,3 @@ class EnvironItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
-
-
-class GmpgspItem(scrapy.Item):
-
-    company_name = scrapy.Field()
-    gmp_gsp_province = scrapy.Field()
-    gmp_gsp_code = scrapy.Field()
-    gmp_gsp_address = scrapy.Field()
-    gmp_gsp_scope = scrapy.Field()
-    gmp_gsp_issue_time = scrapy.Field()
-    gmp_gsp_validity_time = scrapy.Field()
-    gmp_gsp_continue_time = scrapy.Field()
-    gmp_gsp_continue_to = scrapy.Field()
-    gmp_gsp_continue_scope = scrapy.Field()
-    gmp_gsp_version_gmp = scrapy.Field()
-    gmp_gsp_remarks = scrapy.Field()
-    company_url = scrapy.Field()
-    company_gather_time = scrapy.Field()
-    gather_id = scrapy.Field()
-    chanle_id = scrapy.Field()
