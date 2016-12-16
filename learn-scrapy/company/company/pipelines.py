@@ -5,7 +5,7 @@ import cx_Oracle
 import redis
 from twisted.enterprise import adbapi
 from company.items import (
-    HaiguanItem, NaShuiItem, SecureItem, EnvironItem)
+    HaiguanItem, NaShuiItem, SecureItem, EnvironItem, TrademarkItem)
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
@@ -80,6 +80,17 @@ class EnvironPipeline(BasePiPeline):
         dbargs = crawler.settings.get('DATABASES').get('oracle')
         table = 'company_environ_monitor'
         columns = list(EnvironItem.fields.keys())
+        return cls(dbargs=dbargs,
+                   insert_sql=cls.create_insert_sql(table, *columns))
+
+
+class TrademarkPipeline(BasePiPeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        dbargs = crawler.settings.get('DATABASES').get('oracle')
+        table = 'company_trademark'
+        columns = list(TrademarkItem.fields.keys())
         return cls(dbargs=dbargs,
                    insert_sql=cls.create_insert_sql(table, *columns))
 

@@ -57,3 +57,26 @@ class EnvironItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
+
+
+class TrademarkItem(scrapy.Item):
+
+    company_name = scrapy.Field()
+    trademark_class_code = scrapy.Field()
+    trademark_name = scrapy.Field()
+    trademark_appli_code = scrapy.Field()
+    trademark_apply_time = scrapy.Field()
+    trademark_status = scrapy.Field()
+    trademark_apply_name = scrapy.Field()
+    trademark_image_weburl = scrapy.Field()
+    trademark_regist_time = scrapy.Field()
+    trademark_regist_no = scrapy.Field()
+    trademark_preli_no = scrapy.Field()
+    trademark_preli_time = scrapy.Field()
+    trademark_type = scrapy.Field()
+    trademark_valid_time = scrapy.Field()
+    trademark_agent_name = scrapy.Field()
+    company_url = scrapy.Field()
+    company_gather_time = scrapy.Field()
+    gather_id = scrapy.Field()
+    chanle_id = scrapy.Field()
