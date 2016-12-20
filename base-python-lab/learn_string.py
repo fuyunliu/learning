@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-"""随机生成6位字符串，只包含字母和数字"""
 
+import locale
 import random
 import string
-import os
 import sys
+import os
+import time
 from imp import reload
 
 
@@ -19,9 +20,6 @@ from imp import reload
 
 # 在python3中，字符就是unicode字符，字符串就是unicode字符数组
 # str转bytes叫encode，bytes转str叫decode
-# chrome --> F12 --> Element --> Ctrl + F 通过xpath查找元素
-
-
 # 用递归方法找到本文件的上n级目录
 def parent_filedir(n):
     return parent_filedir_iter(n, os.path.dirname(__file__))
@@ -40,8 +38,6 @@ sys.path.append(testdir)
 
 
 # python倒计时
-import time
-
 def countdown(t):
     while t:
         mins, secs = divmod(t, 60)
@@ -50,3 +46,22 @@ def countdown(t):
         time.sleep(1)
         t -= 1
     print('Goodbye!')
+
+
+# python遇到编码问题，IDE不能输出中文，请设置环境变量PYTHONIOENCODING为utf-8。
+# 其实是在Anaconda Python Builder下不能输出中文，Python正常。
+# PYTHONIOENCODING的值会覆盖sys.std.out.encoding的值。
+# sys.setdefaultencoding('utf-8')方法是错误的，并且在python3中已被移除。
+print(sys.getdefaultencoding())
+print(sys.stdout.encoding)
+print(sys.stdin.encoding)
+print(sys.stderr.encoding)
+print()
+print(sys.stdout.isatty())
+print(locale.getpreferredencoding())
+print(sys.getfilesystemencoding())
+print(os.environ.get("PYTHONIOENCODING"))
+
+# 测试输出
+print("测试输出中文")
+print(chr(246), chr(9786), chr(9787))
