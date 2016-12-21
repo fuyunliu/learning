@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""收集列表操作方法"""
-# import pprint
+"收集列表操作方法"
 
 
 def chunks(l, n):

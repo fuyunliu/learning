@@ -9,8 +9,8 @@ from ._companies import companies
 from company.items import TrademarkItem
 
 
-search_url = "http://api.tmkoo.com/app-search.php?keyword={key}&apiKey=appf4:8e:92:24&apiPassword=qfcqBYITGX&pageSize=50&condition=1&intCls=0"
-detail_url = "http://api.tmkoo.com/app-info.php?apiKey=appf4:8e:92:24&apiPassword=qfcqBYITGX&regNo={regno}&intCls={intcls}"
+search_url = "http://api.tmkoo.com/app-search.php?keyword={key}&apiKey=TEST001&apiPassword=TEST_P_001&pageSize=50&condition=1&intCls=0"
+detail_url = "http://api.tmkoo.com/app-info.php?apiKey=4399320012393234&apiPassword=331nd3342d&regNo={regno}&intCls={intcls}"
 scroll_url = "http://api.tmkoo.com/app-search-scroll.php?logId={logid}&pageSize=50&pageNo={pn}"
 
 
