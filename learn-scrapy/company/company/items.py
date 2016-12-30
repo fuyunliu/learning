@@ -80,3 +80,19 @@ class TrademarkItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
+
+
+class CreditItem(scrapy.Item):
+
+    company_name = scrapy.Field()
+    credit_rating = scrapy.Field()
+    credit_certifi_code = scrapy.Field()
+    credit_certifi_time = scrapy.Field()
+    credit_validit_period = scrapy.Field()
+    credit_certifi_unit = scrapy.Field()
+    company_org_code = scrapy.Field()
+    company_regis_code = scrapy.Field()
+    credit_url = scrapy.Field()
+    company_gather_time = scrapy.Field()
+    gather_id = scrapy.Field()
+    chanle_id = scrapy.Field()

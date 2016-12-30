@@ -5,12 +5,12 @@ import json
 import urllib.parse as urlparse
 import scrapy
 from datetime import datetime
-from ._companies import companies
+from company.constants import companies
 from company.items import TrademarkItem
 
 
-search_url = "http://api.tmkoo.com/app-search.php?keyword={key}&apiKey=TEST001&apiPassword=TEST_P_001&pageSize=50&condition=1&intCls=0"
-detail_url = "http://api.tmkoo.com/app-info.php?apiKey=4399320012393234&apiPassword=331nd3342d&regNo={regno}&intCls={intcls}"
+search_url = "http://api.tmkoo.com/app-search.php?keyword={key}&apiKey=app7c:1d:d9:f7&apiPassword=/VqgzCA2bj&pageSize=50&condition=1&intCls=0"
+detail_url = "http://api.tmkoo.com/app-info.php?apiKey=app7c:1d:d9:f7&apiPassword=/VqgzCA2bj&regNo={regno}&intCls={intcls}"
 scroll_url = "http://api.tmkoo.com/app-search-scroll.php?logId={logid}&pageSize=50&pageNo={pn}"
 
 
