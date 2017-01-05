@@ -10,7 +10,7 @@ logging.basicConfig(filename=LOG_FILENAME,
                     )
 
 
-logging.debug('This message should go to the log file')
+logging.info('This message should go to the log file')
 
 with open(LOG_FILENAME, 'rt') as f:
     body = f.read()

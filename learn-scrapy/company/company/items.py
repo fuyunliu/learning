@@ -96,3 +96,20 @@ class CreditItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
+
+
+class StockItem(scrapy.Item):
+
+    company_name = scrapy.Field()
+    notice_id = scrapy.Field()
+    notice_shares_code = scrapy.Field()
+    notice_title = scrapy.Field()
+    notice_type = scrapy.Field()
+    notice_publishtime = scrapy.Field()
+    notice_url = scrapy.Field()
+    notice_file_url = scrapy.Field()
+    notice_industry = scrapy.Field()
+    notice_plate = scrapy.Field()
+    company_gather_time = scrapy.Field()
+    gather_id = scrapy.Field()
+    chanle_id = scrapy.Field()
