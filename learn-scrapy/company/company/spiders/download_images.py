@@ -10,7 +10,7 @@ class ImageSpider(scrapy.Spider):
     start_urls = trademark_image_weburl
 
     def parse(self, response):
-        name = response.url.split('=')[1]
-        img = 'E:/trademark/%s.jpg' % name
+        name = response.url.split('/')[-1]
+        img = 'E:/trademark/%s' % name
         with open(img, 'wb') as f:
             f.write(response.body)

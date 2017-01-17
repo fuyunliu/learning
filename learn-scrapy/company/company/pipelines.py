@@ -2,7 +2,7 @@
 
 import os
 import cx_Oracle
-# import redis
+import redis
 from twisted.enterprise import adbapi
 from company.items import (
     HaiguanItem, NaShuiItem, SecureItem, EnvironItem, TrademarkItem,
@@ -118,21 +118,24 @@ class StockPipeline(BasePiPeline):
                    insert_sql=cls.create_insert_sql(table, *columns))
 
 
-# class HaiGuanIdPipeline(object):
+class HaiGuanIdPipeline(object):
 
-#     def __init__(self):
-#         self.set_key = 'company_haiguan_id'  # 维护一个集合作为索引
-#         self.list_key = 'company_haiguan_detail_id'  # 列表更好地用于切片迭代
+    def __init__(self):
+        self.set_key = 'company_custom_rating_detail_id_set'
+        self.list_key = 'company_custom_rating_detail_id_list'
 
-#     def open_spider(self, spider):
-#         self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+    def open_spider(self, spider):
+        self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 
-#     def close_spider(self, spider):
-#         self.dbpool.disconnect()
+    def close_spider(self, spider):
+        self.dbpool.disconnect()
 
-#     def process_item(self, item, spider):
-#         r = redis.Redis(connection_pool=self.dbpool)
-#         if not r.sismember(self.set_key):
-#             r.sadd(self.set_key, item['Id'])
-#             r.lpush(self.list_key, item['Id'])
-#         spider.log("成功添加： %s" % item['Id'])
+    def process_item(self, item, spider):
+        r = redis.Redis(connection_pool=self.dbpool)
+        Id = item['Id']
+        if not r.sismember(self.set_key, Id):
+            r.sadd(self.set_key, Id)
+            r.lpush(self.list_key, Id)
+            spider.log("成功添加： %s" % Id)
+        else:
+            spider.log("该数据已存在： %s" % Id)

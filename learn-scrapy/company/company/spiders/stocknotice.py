@@ -52,7 +52,7 @@ notice_file_url = "http://www.cninfo.com.cn/cninfo-new/disclosure/szse/download/
 payload = {
     'stock': '', 'searchkey': '', 'plate': '', 'category': '', 'trade': '',
     'column': 'szse', 'columnTitle': '历史公告查询', 'pageNum': '',
-    'pageSize': '30', 'tabName': 'fulltext', 'sortName': '', 'sortType': '',
+    'pageSize': '50', 'tabName': 'fulltext', 'sortName': '', 'sortType': '',
     'limit': '', 'showTitle': '', 'seDate': '请选择日期'
 }
 
