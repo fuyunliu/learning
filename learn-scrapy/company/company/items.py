@@ -60,6 +60,10 @@ class EnvironItem(scrapy.Item):
     chanle_id = scrapy.Field()
 
 
+class TrademarkUrlItem(scrapy.Item):
+    url = scrapy.Field()
+
+
 class TrademarkItem(scrapy.Item):
 
     company_name = scrapy.Field()

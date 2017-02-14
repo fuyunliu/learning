@@ -126,16 +126,39 @@ class HaiGuanIdPipeline(object):
 
     def open_spider(self, spider):
         self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+        self.redis = redis.Redis(connection_pool=self.dbpool)
 
     def close_spider(self, spider):
         self.dbpool.disconnect()
 
     def process_item(self, item, spider):
-        r = redis.Redis(connection_pool=self.dbpool)
         Id = item['Id']
-        if not r.sismember(self.set_key, Id):
-            r.sadd(self.set_key, Id)
-            r.lpush(self.list_key, Id)
+        if not self.redis.sismember(self.set_key, Id):
+            self.redis.sadd(self.set_key, Id)
+            self.redis.lpush(self.list_key, Id)
             spider.log("成功添加： %s" % Id)
         else:
             spider.log("该数据已存在： %s" % Id)
+
+
+class TrademarkUrlPipeline(object):
+
+    def __init__(self):
+        self.set_key = 'company_trademark_url_set'
+        self.list_key = 'company_trademark_url_list'
+
+    def open_spider(self, spider):
+        self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+        self.redis = redis.Redis(connection_pool=self.dbpool)
+
+    def close_spider(self, spider):
+        self.dbpool.disconnect()
+
+    def process_item(self, item, spider):
+        url = item['url']
+        if not self.redis.sismember(self.set_key, url):
+            self.redis.sadd(self.set_key, url)
+            self.redis.lpush(self.list_key, url)
+            spider.log("成功添加： %s" % url)
+        else:
+            spider.log("该数据已存在： %s" % url)

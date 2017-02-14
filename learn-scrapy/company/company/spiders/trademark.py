@@ -11,18 +11,18 @@ import pymysql.cursors
 import redis
 import scrapy
 
-from company.items import TrademarkItem
+from company.items import TrademarkUrlItem, TrademarkItem
 
 # 连接MySQL数据库
 connection = pymysql.connect(host='localhost',
                              user='root',
                              password='root',
-                             db='test',
+                             db='testdb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 # 网站各种url
 search_url = "http://api.tmkoo.com/app-search.php?keyword={keyword}&apiKey={key}&apiPassword={password}&pageSize=50&condition=1&intCls=0"
-detail_url = "http://api.tmkoo.com/app-info.php?apiKey={key}&apiPassword={password}&regNo={regno}&intCls={intcls}"
+detail_url = "http://api.tmkoo.com/app-info.php?apiKey={key}&apiPassword={password}"
 scroll_url = "http://api.tmkoo.com/app-search-scroll.php?logId={logid}&pageSize=50&pageNo={pn}"
 
 
@@ -39,13 +39,18 @@ def get_keyword(start=0, stop=-1):
     return r.lrange('dynamic_gather_keyword_list', start, stop)
 
 
-class TrademarkSpider(scrapy.Spider):
-    name = 'trademark'
+def get_trademark_url(start=0, stop=-1):
+    r = redis.Redis(host='localhost', port=6379, db=0)
+    return r.lrange('company_trademark_url_list', start, stop)
+
+
+class TrademarkUrlSpider(scrapy.Spider):
+    name = 'trademark_url'
     key, password = get_new_api(id=1)
     start_urls = [
         search_url.format(
             keyword=kw.decode(), key=key, password=password
-        ) for kw in get_keyword(0, -1)
+        ) for kw in get_keyword(0, 99)
     ]
 
     def parse(self, response):
@@ -54,12 +59,10 @@ class TrademarkSpider(scrapy.Spider):
             count = int(data['allRecords'])
             if count != 0:
                 for r in data['results']:
-                    regno = r['regNo']
-                    intcls = r['intCls']
-                    detail = detail_url.format(
-                        regno=regno, intcls=intcls,
-                        key=self.key, password=self.password)
-                    yield scrapy.Request(detail, callback=self.parse_detail)
+                    item = TrademarkUrlItem()
+                    item['url'] = "&regNo=%s&intCls=%s" % (
+                        r['regNo'], r['intCls'])
+                    yield item
                 query = urlparse.urlsplit(response.url).query
                 params = dict(urlparse.parse_qsl(query))
                 logid = data['logId'] or params.get('logId', '')
@@ -72,7 +75,16 @@ class TrademarkSpider(scrapy.Spider):
                 data['ret'], data['remainCount'], data['msg'])
             self.log(log)
 
-    def parse_detail(self, response):
+
+class TrademarkSpider(scrapy.Spider):
+    name = 'trademark'
+    key, password = get_new_api(id=1)
+    start_urls = [
+        detail_url.format(key=key, password=password) + url.decode()
+        for url in get_trademark_url(0, 499)
+    ]
+
+    def parse(self, response):
         data = json.loads(response.text)
         if data['ret'] == '0':
             item = TrademarkItem()

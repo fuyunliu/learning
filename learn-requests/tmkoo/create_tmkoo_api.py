@@ -4,7 +4,6 @@ GET http://api.tmkoo.com/app-reg.php?mobile=b4:52:7e:ca
 """
 
 import pymysql.cursors
-import time
 import random
 import requests
 import string
@@ -14,7 +13,7 @@ from constants import agents, proxy
 connection = pymysql.connect(host='localhost',
                              user='root',
                              password='root',
-                             db='test',
+                             db='testdb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -31,7 +30,6 @@ def create_api(mobile):
     try:
         r = requests.get(url, headers=headers,
                          proxies=proxies, params=payload)
-        time.sleep(5)
         data = r.json()
         if data['ret'] == '0':
             api = {'key': data['apiKey'], 'password': data['apiPassword']}
@@ -39,7 +37,7 @@ def create_api(mobile):
         else:
             print("ret: %s, msg: %s" % (data['ret'], data['msg']))
     except Exception as e:
-        print("连接失败！")
+        print("连接失败！代理：%s" % proxies['http'])
 
 
 def save_api(api):

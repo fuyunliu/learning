@@ -11,18 +11,18 @@ import pymysql.cursors
 import redis
 import scrapy
 
-from company.items import TrademarkItem
+from company.items import TrademarkItem, TrademarkUrlItem
 
 # 连接MySQL数据库
 connection = pymysql.connect(host='localhost',
                              user='root',
                              password='root',
-                             db='test',
+                             db='testdb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 # 网站url
 tianyancha = "http://www.tianyancha.com/tm/search/{keyword}.json"
-detail_url = "http://api.tmkoo.com/app-info.php?apiKey={key}&apiPassword={password}&regNo={regno}&intCls={intcls}"
+detail_url = "http://api.tmkoo.com/app-info.php?apiKey={key}&apiPassword={password}"
 
 
 def get_new_api(id=1):
@@ -38,9 +38,13 @@ def get_keyword(start=0, stop=-1):
     return r.lrange('dynamic_gather_keyword_list', start, stop)
 
 
-class TrademarkSpider(scrapy.Spider):
-    name = 'tianyancha'
-    key, password = get_new_api(id=1)
+def get_trademark_url(start=0, stop=-1):
+    r = redis.Redis(host='localhost', port=6379, db=0)
+    return r.lrange('company_trademark_url_list', start, stop)
+
+
+class TrademarkUrlSpider(scrapy.Spider):
+    name = 'tianyancha_url'
     start_urls = [
         tianyancha.format(keyword=kw.decode()) for kw in get_keyword(0, -1)
     ]
@@ -51,12 +55,11 @@ class TrademarkSpider(scrapy.Spider):
             count = int(data['data']['total'])
             if count != 0:
                 for r in data['data']['items']:
+                    item = TrademarkUrlItem()
                     regno = r['regNo']
                     intcls = re.findall(r'第(\d+)类', r['intCls'])[0]
-                    detail = detail_url.format(
-                        regno=regno, intcls=intcls,
-                        key=self.key, password=self.password)
-                    yield scrapy.Request(detail, callback=self.parse_detail)
+                    item['url'] = "&regNo=%s&intCls=%s" % (regno, intcls)
+                    yield item
                 pn = int(data['data']['pageNum']) + 1
                 if pn <= math.ceil(count / 20):
                     next_page = response.url.split(
@@ -66,7 +69,16 @@ class TrademarkSpider(scrapy.Spider):
             log = "state: %s, message: %s." % (data['state'], data['message'])
             self.log(log)
 
-    def parse_detail(self, response):
+
+class TrademarkSpider(scrapy.Spider):
+    name = 'tianyancha'
+    key, password = get_new_api(id=1)
+    start_urls = [
+        detail_url.format(key=key, password=password) + url.decode()
+        for url in get_trademark_url(0, 499)
+    ]
+
+    def parse(self, response):
         data = json.loads(response.text)
         if data['ret'] == '0':
             item = TrademarkItem()
