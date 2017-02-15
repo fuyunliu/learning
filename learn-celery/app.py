@@ -15,8 +15,8 @@ app.config['SECRET_KEY'] = 'hello-world'
 
 # Mail configuration
 mail_server = 'smtp.exmail.qq.com'
-mail_username = from_addr = 'liu.fuyun@artpollo.com'
-mail_password = 'JA&FY@qqyx.022039'
+mail_username = from_addr = ''
+mail_password = ''
 smtp = smtplib.SMTP(mail_server, 25)
 smtp.set_debuglevel(1)
 
