@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
-from pathlib import Path
+import pathlib
 
 
 # 判断文件是否存在，pathlib.Path是面向对象的实现
-my_file = Path('/path/to/file')
+my_file = pathlib.Path('/path/to/file')
 print(my_file.is_file())
 
 # 也可以用os模块
@@ -24,6 +24,10 @@ with open('test1.txt', 'r') as f1, open('test2.txt', 'w') as f2:
     f2.write(f1.read())
 
 # 打开大文件，使用这种方式会像生成器那样对待文件
-with open('test.txt', 'rt') as f:
+with open('test1.txt', 'rt') as f:
     for line in f:
         pass  # do something with line
+
+
+base_dir = pathlib.Path(__file__).parent
+print(base_dir / 'test.txt')
