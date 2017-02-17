@@ -40,15 +40,16 @@ class HaiGuanIdSpider(scrapy.Spider):
 
 def get_haiguan_ids(start=0, stop=-1):
     r = redis.Redis(host='localhost', port=6379, db=0)
-    ids = r.lrange('company_haiguan_detail_id', start, stop)
+    ids = r.lrange('gather_detail_id_list', start, stop)
     return ids
 
 
 class HaiGuanSpider(scrapy.Spider):
     name = 'haiguan'
     detail_url = "http://www.haiguan.info/infos{id}.aspx"
+    global detail_url
     start_urls = [
-        detail_url.format(id=id.decode()) for id in get_haiguan_ids(0, -1)
+        detail_url.format(id=id.decode()) for id in get_haiguan_ids(0, 10000)
     ]
 
     def parse(self, response):
@@ -66,6 +67,7 @@ class HaiGuanSpider(scrapy.Spider):
         item['business_level'] = extract_with_xpath(
             "//*[@id='ctl00_MainContent_lblCO_Class']/text()")
         item['company_url'] = response.url
+        item['site_name'] = '海关信息网'
         item['company_gather_time'] = datetime.now(
         ).strftime("%Y-%m-%d %H:%M:%S")
         item['gather_id'] = 8

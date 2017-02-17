@@ -4,8 +4,7 @@ import abc
 from io import StringIO
 
 
-class ABCWithConcreteImplementation(object):
-    __metaclass__ = abc.ABCMeta
+class ABCWithConcreteImplementation(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def retrieve_values(self, input):

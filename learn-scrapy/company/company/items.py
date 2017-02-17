@@ -14,6 +14,7 @@ class HaiguanItem(scrapy.Item):
     business_scope = scrapy.Field()
     business_level = scrapy.Field()
     company_url = scrapy.Field()
+    site_name = scrapy.Field()
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
