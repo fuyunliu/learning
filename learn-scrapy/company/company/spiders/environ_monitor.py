@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from company.items import EnvironItem
 
-list_url = "http://datacenter.mep.gov.cn/main/template-view.action?templateId_=40288098292043970129204f5c6e000a&dataSource=&subdivision=&legalcode=&enterprisename=&categories=&province=&times=&page.pageNo={p}"
+list_url = "http://datacenter.mep.gov.cn:8099/ths-report/report!list.action?xmlname=1462849093743&page.pageNo={p}"
 
 
 class EnvironSpider(scrapy.Spider):
@@ -13,10 +13,10 @@ class EnvironSpider(scrapy.Spider):
     start_urls = [list_url.format(p=p) for p in range(0, 3458)]
 
     def parse(self, response):
-        html = response.xpath("//*[@id='mainForm']/table[2]").extract_first()
+        html = response.xpath("//*[@id='GridView1']").extract_first()
         soup = BeautifulSoup(html, 'lxml')
         trs = soup.find_all('tr')
-        del trs[:2]
+        del trs[0]
         for tr in trs:
             tds = tr('td')
             item = EnvironItem()

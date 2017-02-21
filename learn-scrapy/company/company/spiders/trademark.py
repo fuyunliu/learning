@@ -46,12 +46,12 @@ def get_trademark_url(start=0, stop=-1):
 
 class TrademarkUrlSpider(scrapy.Spider):
     name = 'trademark_url'
-    key, password = get_new_api(id=1)
-    start_urls = [
-        search_url.format(
-            keyword=kw.decode(), key=key, password=password
-        ) for kw in get_keyword(0, 99)
-    ]
+    # key, password = get_new_api(id=1)
+    # start_urls = [
+    #     search_url.format(
+    #         keyword=kw.decode(), key=key, password=password
+    #     ) for kw in get_keyword(0, 99)
+    # ]
 
     def parse(self, response):
         data = json.loads(response.text)

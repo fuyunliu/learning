@@ -5,6 +5,8 @@ import scrapy
 from bs4 import BeautifulSoup
 from company.items import CreditItem
 from org.wzty.utils.strings.String_Manager import Utils_String
+
+
 list_url = 'http://bcp.12312.gov.cn/ratingList?sid=1&rn=30&pn={pn}'
 
 

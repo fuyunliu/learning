@@ -44,10 +44,11 @@ def get_haiguan_ids(start=0, stop=-1):
     return ids
 
 
+detail_url = "http://www.haiguan.info/infos{id}.aspx"
+
+
 class HaiGuanSpider(scrapy.Spider):
     name = 'haiguan'
-    detail_url = "http://www.haiguan.info/infos{id}.aspx"
-    global detail_url
     start_urls = [
         detail_url.format(id=id.decode()) for id in get_haiguan_ids(0, 10000)
     ]

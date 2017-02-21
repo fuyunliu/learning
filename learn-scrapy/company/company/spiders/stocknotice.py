@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import os
-import logging
 import itertools
 import json
 import scrapy
 from datetime import datetime
 from company.items import StockItem
 
-LOG_FILENAME = os.path.join(os.path.dirname(__file__), 'debug.log')
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 # 公告类别，总共24个类别，总数据量220万条以上
 plates = {'sz': '深市公司', 'szmb': '深市主板', 'szzx': '中小板',
@@ -53,14 +49,14 @@ payload = {
     'stock': '', 'searchkey': '', 'plate': '', 'category': '', 'trade': '',
     'column': 'szse', 'columnTitle': '历史公告查询', 'pageNum': '',
     'pageSize': '50', 'tabName': 'fulltext', 'sortName': '', 'sortType': '',
-    'limit': '', 'showTitle': '', 'seDate': '请选择日期'
+    'limit': '', 'showTitle': '', 'seDate': '2017-01-01 ~ 2017-03-01'
 }
 
 
 class StockNtoice(scrapy.Spider):
 
     name = "stocknotice"
-    category, notice_type = categories[0]['category'], categories[0]['name']
+    category, notice_type = categories[9]['category'], categories[9]['name']
 
     def start_requests(self):
         for i in itertools.product(list(plates.keys()), trades):
@@ -93,6 +89,7 @@ class StockNtoice(scrapy.Spider):
                 notice_id=notice_id)
             item['notice_industry'] = trade
             item['notice_plate'] = plates[plate]
+            item['site_name'] = '巨潮资讯'
             item['company_gather_time'] = datetime.now(
             ).strftime("%Y-%m-%d %H:%M:%S")
             item['gather_id'] = 8

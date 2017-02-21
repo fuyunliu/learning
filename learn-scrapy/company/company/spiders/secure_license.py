@@ -5,12 +5,13 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from company.items import SecureItem
 
+
 list_url = "http://media.chinasafety.gov.cn:8090/zhengfu3/aqxkzcx_jg.jsp?currentPage={p}"
 
 
 class SecureSpider(scrapy.Spider):
     name = 'secure'
-    start_urls = [list_url.format(p=p) for p in range(400, 421)]
+    start_urls = [list_url.format(p=p) for p in range(420, 421)]
 
     def parse(self, response):
         html = response.xpath("(//table)[2]").extract_first()
@@ -32,4 +33,5 @@ class SecureSpider(scrapy.Spider):
             item['company_gather_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             item['gather_id'] = 8
             item['chanle_id'] = 0
+            item['site_name'] = '国家安全生产监督管理总局'
             yield item
