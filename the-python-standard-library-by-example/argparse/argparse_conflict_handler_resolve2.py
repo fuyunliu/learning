@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
 import argparse
 
@@ -17,4 +9,4 @@ parser.add_argument('--long-b', '-b',
                     help='Long and short together')
 parser.add_argument('-b', action="store", help='Short alone')
 
-print parser.parse_args(['-h'])
+print(parser.parse_args(['-h']))

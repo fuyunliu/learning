@@ -144,8 +144,8 @@ class HaiGuanIdPipeline(object):
 class TrademarkUrlPipeline(object):
 
     def __init__(self):
-        self.set_key = 'company_trademark_url_set'
-        self.list_key = 'company_trademark_url_list'
+        self.set_key = 'part_trademark_url_set'
+        self.list_key = 'part_trademark_url_list'
 
     def open_spider(self, spider):
         self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)

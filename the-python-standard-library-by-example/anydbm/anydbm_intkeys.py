@@ -1,20 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2008 Doug Hellmann All rights reserved.
-#
-"""
-"""
 
-__version__ = "$Id$"
-#end_pymotw_header
+import dbm
 
-import anydbm
 
-db = anydbm.open('/tmp/example.db', 'w')
-try:
-    db[1] = 'one'
-except TypeError, err:
-    print '%s: %s' % (err.__class__.__name__, err)
-finally:
-    db.close()
+with dbm.open('example.db', 'w') as db:
+    try:
+        db[1] = 'one'
+    except TypeError as e:
+        print('%s: %s' % (e.__class__.__name__, e))

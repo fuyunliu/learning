@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Parent with shared options
-"""
-#end_pymotw_header
 
 import argparse
 

@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
 import argparse
 
@@ -29,7 +21,7 @@ create_parser.add_argument(
 create_parser.add_argument(
     '--read-only', default=False, action='store_true',
     help='Set permissions to prevent writing to the directory',
-    )
+)
 
 # A delete command
 delete_parser = subparsers.add_parser(
@@ -39,6 +31,6 @@ delete_parser.add_argument(
 delete_parser.add_argument(
     '--recursive', '-r', default=False, action='store_true',
     help='Remove the contents of the directory, too',
-    )
+)
 
-print parser.parse_args()
+print(parser.parse_args())

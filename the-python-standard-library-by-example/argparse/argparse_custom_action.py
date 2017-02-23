@@ -1,15 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Defining custom action callbacks
-"""
-#end_pymotw_header
 
 import argparse
 
+
 class CustomAction(argparse.Action):
+
     def __init__(self,
                  option_strings,
                  dest,
@@ -33,30 +27,31 @@ class CustomAction(argparse.Action):
                                  help=help,
                                  metavar=metavar,
                                  )
-        print 'Initializing CustomAction'
-        for name,value in sorted(locals().items()):
+        print('Initializing CustomAction')
+        for name, value in sorted(locals().items()):
             if name == 'self' or value is None:
                 continue
-            print '  %s = %r' % (name, value)
-        print
+            print('  %s = %r' % (name, value))
+        print()
         return
 
     def __call__(self, parser, namespace, values,
                  option_string=None):
-        print 'Processing CustomAction for "%s"' % self.dest
-        print '  parser = %s' % id(parser)
-        print '  values = %r' % values
-        print '  option_string = %r' % option_string
-        
+        print('Processing CustomAction for "%s"' % self.dest)
+        print('  parser = %s' % id(parser))
+        print('  values = %r' % values)
+        print('  option_string = %r' % option_string)
+
         # Do some arbitrary processing of the input values
         if isinstance(values, list):
-            values = [ v.upper() for v in values ]
+            values = [v.upper() for v in values]
         else:
             values = values.upper()
         # Save the results in the namespace using the destination
         # variable given to our constructor.
         setattr(namespace, self.dest, values)
-        print
+        print()
+
 
 parser = argparse.ArgumentParser()
 
@@ -66,4 +61,4 @@ parser.add_argument('-m', nargs='*', action=CustomAction)
 results = parser.parse_args(['-a', 'value',
                              '-m', 'multivalue',
                              'second'])
-print results
+print(results)

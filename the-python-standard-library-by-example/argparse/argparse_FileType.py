@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
 import argparse
 
@@ -18,8 +10,7 @@ parser.add_argument('-o', metavar='out-file',
 
 try:
     results = parser.parse_args()
-    print 'Input file:', results.i
-    print 'Output file:', results.o
-except IOError, msg:
+    print('Input file:', results.i)
+    print('Output file:', results.o)
+except IOError as msg:
     parser.error(str(msg))
-    

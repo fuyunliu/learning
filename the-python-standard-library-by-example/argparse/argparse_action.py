@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2010 Doug Hellmann.  All rights reserved.
-#
-"""Show the built-in argument actions.
-"""
-#end_pymotw_header
 
 import argparse
 
@@ -48,8 +40,8 @@ parser.add_argument('--version', action='version',
                     version='%(prog)s 1.0')
 
 results = parser.parse_args()
-print 'simple_value     = %r' % results.simple_value
-print 'constant_value   = %r' % results.constant_value
-print 'boolean_switch   = %r' % results.boolean_switch
-print 'collection       = %r' % results.collection
-print 'const_collection = %r' % results.const_collection
+print('simple_value     = %r' % results.simple_value)
+print('constant_value   = %r' % results.constant_value)
+print('boolean_switch   = %r' % results.boolean_switch)
+print('collection       = %r' % results.collection)
+print('const_collection = %r' % results.const_collection)

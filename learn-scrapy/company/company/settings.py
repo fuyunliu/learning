@@ -22,8 +22,9 @@ ITEM_PIPELINES = {
     # 'company.pipelines.SecurePipeline': 300,
     # 'company.pipelines.EnvironPipeline': 300,
     # 'company.pipelines.HaiGuanIdPipeline': 300,
-    # 'company.pipelines.TrademarkPipeline': 300,
-    'company.pipelines.StockPipeline': 300,
+    'company.pipelines.TrademarkPipeline': 300,
+    # 'company.pipelines.StockPipeline': 300,
+    # 'company.pipelines.TrademarkUrlPipeline': 300,
 }
 DATABASES = {
     'oracle': {
