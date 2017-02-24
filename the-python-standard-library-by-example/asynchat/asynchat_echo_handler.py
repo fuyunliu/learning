@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2009 Doug Hellmann All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
 import asynchat
 import logging
@@ -19,15 +11,14 @@ class EchoHandler(asynchat.async_chat):
     # sending and receiving partial messages.
     ac_in_buffer_size = 128
     ac_out_buffer_size = 128
-    
+
     def __init__(self, sock):
         self.received_data = []
         self.logger = logging.getLogger('EchoHandler')
         asynchat.async_chat.__init__(self, sock)
         # Start looking for the ECHO command
         self.process_data = self._process_command
-        self.set_terminator('\n')
-        return
+        self.set_terminator(b'\n')
 
     def collect_incoming_data(self, data):
         """Read an incoming message from the client
@@ -42,20 +33,20 @@ class EchoHandler(asynchat.async_chat):
         """The end of a command or message has been seen."""
         self.logger.debug('found_terminator()')
         self.process_data()
-    
-    def _process_command(self):        
+
+    def _process_command(self):
         """Have the full ECHO command"""
-        command = ''.join(self.received_data)
+        command = b''.join(self.received_data)
         self.logger.debug('_process_command() %r', command)
-        command_verb, command_arg = command.strip().split(' ')
+        command_verb, command_arg = command.strip().split(b' ')
         expected_data_len = int(command_arg)
         self.set_terminator(expected_data_len)
         self.process_data = self._process_message
         self.received_data = []
-    
+
     def _process_message(self):
         """Have read the entire message."""
-        to_echo = ''.join(self.received_data)
+        to_echo = b''.join(self.received_data)
         self.logger.debug('_process_message() echoing %r',
                           to_echo)
         self.push(to_echo)

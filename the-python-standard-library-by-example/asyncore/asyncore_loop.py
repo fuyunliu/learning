@@ -1,13 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2009 Doug Hellmann All rights reserved.
-#
-"""
-"""
-
-__version__ = "$Id$"
-#end_pymotw_header
 
 import asyncore
 import logging
@@ -20,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 clients = [
     HttpClient('http://www.doughellmann.com/'),
-    ]
+]
 
 loop_counter = 0
 while asyncore.socket_map:
