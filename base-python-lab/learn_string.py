@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""python3默认的源码编码方式是utf-8，所以第一行可以省略，除非你想指定其他编码方式"""
 
 import locale
 import random
