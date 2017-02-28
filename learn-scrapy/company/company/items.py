@@ -106,6 +106,7 @@ class CreditItem(scrapy.Item):
     company_org_code = scrapy.Field()
     company_regis_code = scrapy.Field()
     credit_url = scrapy.Field()
+    site_name = scrapy.Field()
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()

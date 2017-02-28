@@ -2,6 +2,7 @@
 
 import re
 import scrapy
+from datetime import datetime
 from bs4 import BeautifulSoup
 from company.items import CreditItem
 from org.wzty.utils.strings.String_Manager import Utils_String
@@ -37,6 +38,7 @@ class CreditSpider(scrapy.Spider):
             item['company_org_code'] = su.parse_static(content, '组织机构代码：', 0, 'OrganizationCode：', 0)
             item['company_regis_code'] = su.parse_static(content, '工商注册号：', 0, 'RegistrationNumber：', 0)
             item['credit_url'] = response.url
+            item['site_name'] = '全国行业信用公共服务平台'
             item['company_gather_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             item['gather_id'] = 8
             item['chanle_id'] = 0

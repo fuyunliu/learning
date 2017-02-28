@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2008 Doug Hellmann All rights reserved.
-#
-"""Test data for all examples.
-"""
-
-__version__ = "$Id$"
-#end_pymotw_header
-
-import hashlib
 
 lorem = '''Lorem ipsum dolor sit amet, consectetur adipisicing elit,
 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
