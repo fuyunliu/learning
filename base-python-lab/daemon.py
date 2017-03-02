@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-在Unix系统上面启动守护进程
-"""
-
 import os
 import sys
 
@@ -15,6 +11,17 @@ def daemonize(pidfile, *,
               stdin='/dev/null',
               stdout='/dev/null',
               stderr='/dev/null'):
+    """在Unix系统上面启动守护进程
+
+    Arguments:
+        pidfile -- pid文件
+        * -- *号的作用是接收其他的位置参数并丢弃掉
+
+    Keyword Arguments:
+        stdin -- 标准输入 (default: {'/dev/null'})
+        stdout -- 标准输出 (default: {'/dev/null'})
+        stderr -- 标准错误 (default: {'/dev/null'})
+    """
 
     if os.path.exists(pidfile):
         raise RuntimeError('Already running.')
