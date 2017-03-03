@@ -57,6 +57,7 @@ class EnvironItem(scrapy.Item):
     monitor_class = scrapy.Field()
     monitor_province = scrapy.Field()
     monitor_year = scrapy.Field()
+    site_name = scrapy.Field()
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()

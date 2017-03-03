@@ -10,7 +10,7 @@ list_url = "http://datacenter.mep.gov.cn:8099/ths-report/report!list.action?xmln
 
 class EnvironSpider(scrapy.Spider):
     name = 'huanjing'
-    start_urls = [list_url.format(p=p) for p in range(0, 3458)]
+    start_urls = [list_url.format(p=p) for p in range(1, 3458)]
 
     def parse(self, response):
         html = response.xpath("//*[@id='GridView1']").extract_first()
@@ -26,6 +26,7 @@ class EnvironSpider(scrapy.Spider):
             item['monitor_class'] = tds[4].get_text(strip=True)
             item['monitor_province'] = tds[5].get_text(strip=True)
             item['monitor_year'] = tds[6].get_text(strip=True)
+            item['site_name'] = '中华人民共和国环境保护部--数据中心'
             item['company_gather_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             item['gather_id'] = 8
             item['chanle_id'] = 0
