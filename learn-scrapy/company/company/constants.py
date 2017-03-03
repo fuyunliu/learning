@@ -13,5 +13,3 @@ agents = [
 ]
 cookies = []
 proxies = []
-companies = []
-trademark_image_weburl = []

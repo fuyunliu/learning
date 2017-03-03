@@ -121,6 +121,7 @@ class StockPipeline(BasePiPeline):
 
 
 class BaseRedisPipeline:
+
     def __init__(self, key_name, set_name, list_name):
         self.key_name = key_name
         self.set_name = set_name
