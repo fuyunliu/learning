@@ -7,6 +7,14 @@ class HaiGuanIdItem(scrapy.Item):
     Id = scrapy.Field()
 
 
+class TrademarkUrlItem(scrapy.Item):
+    url = scrapy.Field()
+
+
+class GmpGspUrlItem(scrapy.Item):
+    url = scrapy.Field()
+
+
 class HaiguanItem(scrapy.Item):
 
     company_name = scrapy.Field()
@@ -61,10 +69,6 @@ class EnvironItem(scrapy.Item):
     company_gather_time = scrapy.Field()
     gather_id = scrapy.Field()
     chanle_id = scrapy.Field()
-
-
-class TrademarkUrlItem(scrapy.Item):
-    url = scrapy.Field()
 
 
 class TrademarkItem(scrapy.Item):

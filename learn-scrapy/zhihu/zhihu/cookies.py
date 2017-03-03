@@ -7,7 +7,7 @@ import requests
 import time
 from bs4 import BeautifulSoup
 from PIL import Image
-from headers import agents
+from constants import agents
 
 
 class ZhihuCookie(object):
@@ -17,7 +17,7 @@ class ZhihuCookie(object):
         self.phone = phone
         self.password = password
         self.session = requests.Session()
-        self.session.headers['user-agent'] = random.choice(agents)
+        self.session.headers["User-Agent"] = random.choice(agents)
         self.index_url = "https://www.zhihu.com/"
         self.email_url = "https://www.zhihu.com/login/email"
         self.phone_url = "https://www.zhihu.com/login/phone_num"

@@ -4,13 +4,14 @@ import os
 import cx_Oracle
 import redis
 from twisted.enterprise import adbapi
+from scrapy.exceptions import CloseSpider
 from company.items import (
     HaiguanItem, NaShuiItem, SecureItem, EnvironItem, TrademarkItem,
     CreditItem, StockItem)
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
-class BasePiPeline(object):
+class BasePiPeline:
 
     def __init__(self, dbargs, insert_sql):
         self.dbargs = dbargs
@@ -33,6 +34,7 @@ class BasePiPeline(object):
             spider.log("该条数据已存在： %s" % item['company_name'])
         except Exception as e:
             spider.log(str(e))
+            raise CloseSpider("数据库失去联系！")
 
     @staticmethod
     def create_insert_sql(table, *columns):
@@ -118,34 +120,11 @@ class StockPipeline(BasePiPeline):
                    insert_sql=cls.create_insert_sql(table, *columns))
 
 
-class HaiGuanIdPipeline(object):
-
-    def __init__(self):
-        self.set_key = 'company_custom_rating_detail_id_set'
-        self.list_key = 'company_custom_rating_detail_id_list'
-
-    def open_spider(self, spider):
-        self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-        self.redis = redis.Redis(connection_pool=self.dbpool)
-
-    def close_spider(self, spider):
-        self.dbpool.disconnect()
-
-    def process_item(self, item, spider):
-        Id = item['Id']
-        if not self.redis.sismember(self.set_key, Id):
-            self.redis.sadd(self.set_key, Id)
-            self.redis.lpush(self.list_key, Id)
-            spider.log("成功添加： %s" % Id)
-        else:
-            spider.log("该数据已存在： %s" % Id)
-
-
-class TrademarkUrlPipeline(object):
-
-    def __init__(self):
-        self.set_key = 'part_trademark_url_set'
-        self.list_key = 'part_trademark_url_list'
+class BaseRedisPipeline:
+    def __init__(self, key_name, set_name, list_name):
+        self.key_name = key_name
+        self.set_name = set_name
+        self.list_name = list_name
 
     def open_spider(self, spider):
         self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
@@ -155,10 +134,37 @@ class TrademarkUrlPipeline(object):
         self.dbpool.disconnect()
 
     def process_item(self, item, spider):
-        url = item['url']
-        if not self.redis.sismember(self.set_key, url):
-            self.redis.sadd(self.set_key, url)
-            self.redis.lpush(self.list_key, url)
-            spider.log("成功添加： %s" % url)
+        value = item.get(self.key_name)
+        if not self.redis.sismember(self.set_name, value):
+            self.redis.sadd(self.set_name, value)
+            self.redis.lpush(self.list_name, value)
+            spider.log("成功添加： %s" % value)
         else:
-            spider.log("该数据已存在： %s" % url)
+            spider.log("该数据已存在： %s" % value)
+
+
+class HaiGuanIdPipeline(BaseRedisPipeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(key_name='Id',
+                   set_name='company_custom_rating_detail_id_set',
+                   list_name='company_custom_rating_detail_id_list')
+
+
+class TrademarkUrlPipeline(BaseRedisPipeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(key_name='url',
+                   set_name='part_trademark_url_set',
+                   list_name='part_trademark_url_list')
+
+
+class GmpGspUrlPipeline(BaseRedisPipeline):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(key_name='url',
+                   set_name='company_gmpgsp_detail_url_set',
+                   list_name='company_gmpgsp_detail_url_list')

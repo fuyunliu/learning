@@ -1,17 +1,11 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2009 Doug Hellmann All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
 import pickle
+
 
 class Node(object):
     """A simple digraph
     """
+
     def __init__(self, name):
         self.name = name
         self.connections = []
@@ -22,6 +16,7 @@ class Node(object):
 
     def __iter__(self):
         return iter(self.connections)
+
 
 def preorder_traversal(root, seen=None, parent=None):
     """Generator function to yield the edges in a graph.
@@ -35,14 +30,15 @@ def preorder_traversal(root, seen=None, parent=None):
     for node in root:
         for parent, subnode in preorder_traversal(node, seen, root):
             yield (parent, subnode)
-    
+
+
 def show_edges(root):
     "Print all the edges in the graph."
     for parent, child in preorder_traversal(root):
         if not parent:
             continue
-        print '%5s -> %2s (%s)' % \
-            (parent.name, child.name, id(child))
+        print('%5s -> %2s (%s)' % (parent.name, child.name, id(child)))
+
 
 # Set up the nodes.
 root = Node('root')
@@ -58,7 +54,7 @@ b.add_edge(a)
 b.add_edge(c)
 a.add_edge(a)
 
-print 'ORIGINAL GRAPH:'
+print('ORIGINAL GRAPH:')
 show_edges(root)
 
 # Pickle and unpickle the graph to create
@@ -66,5 +62,5 @@ show_edges(root)
 dumped = pickle.dumps(root)
 reloaded = pickle.loads(dumped)
 
-print '\nRELOADED GRAPH:'
+print('\nRELOADED GRAPH:')
 show_edges(reloaded)
