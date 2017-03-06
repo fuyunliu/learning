@@ -6,6 +6,7 @@
 import pymysql.cursors
 import requests
 
+
 conn = pymysql.connect(
     host='localhost',
     user='root',
@@ -15,12 +16,12 @@ conn = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor)
 
 
-class CleanProxy(object):
+class CleanProxy:
 
     def __init__(self):
         self.conn = conn
         self.test_url = "http://httpbin.org/ip"
-        self.fetch_sql = "select id, ip, port from proxy_ip"
+        self.fetch_sql = "select id, ip, port from proxy_ip where usability=1"
         self.delete_sql = "delete from proxy_ip where id = {id}"
 
     def fetch_all(self):
@@ -60,11 +61,8 @@ if __name__ == '__main__':
     # c = CleanProxy()
     # c.control()
 
-    import pprint
     c = CleanProxy()
     rows = c.fetch_all()
-    proxies = []
     for row in rows:
-        proxy = "http://%s:%s" % (row['ip'], row['port'])
-        proxies.append(proxy)
-    pprint.pprint(proxies)
+        proxy = "%s:%s" % (row['ip'], row['port'])
+        print(proxy)
