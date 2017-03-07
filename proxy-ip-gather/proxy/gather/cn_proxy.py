@@ -21,9 +21,6 @@ class ChinaProxy(object):
         self.insert_sql = """insert into proxy_ip (ip, port, area, type,
             protocol) values (%s, %s, %s, '高匿', 'HTTP')"""
 
-    def __call__(self):
-        self.parse_list()
-
     def parse_list(self):
         driver = webdriver.PhantomJS()
         driver.get(self.list_url)
@@ -49,10 +46,13 @@ class ChinaProxy(object):
             except Exception as e:
                 print("已存在 --> %s" % one[0])
 
+    def control(self):
+        self.parse_list()
+
 
 if __name__ == '__main__':
     try:
-        ChinaProxy()
+        ChinaProxy().control()
     except Exception as e:
         conn.rollback()
     finally:

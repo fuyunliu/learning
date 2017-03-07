@@ -15,6 +15,17 @@ conn = pymysql.connect(
     db='testdb',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor)
+headers = {
+"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+"Accept-Encoding":"gzip, deflate, sdch",
+"Accept-Language":"zh-CN,zh;q=0.8,en;q=0.6,und;q=0.4",
+"Connection":"keep-alive",
+"Cookie":"_ydclearance=0dde75c14644a9f4d73cfefa-7238-4dc3-956d-47c31102babd-1488873505; channelid=0; sid=1488866018474666; _gat=1; _ga=GA1.2.1682203384.1488866308",
+"Host":"www.kuaidaili.com",
+"Referer":"http://www.kuaidaili.com/",
+"Upgrade-Insecure-Requests":"1",
+"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+}
 
 
 class Base:
@@ -22,12 +33,8 @@ class Base:
     def __init__(self):
         self.conn = conn
         self.session = requests.Session()
-        self.session.headers['user-agent'] = random.choice(agents)
-        self.insert_sql = """insert into proxy_ip (ip, port, area, type,
-            protocol) values (%s, %s, %s, %s, %s)"""
-
-    def __call__(self):
-        self.parse_list()
+        self.session.headers = headers
+        # self.session.headers['User-Agent'] = random.choice(agents)
 
     def parse_list(self):
         raise NotImplementedError
@@ -45,6 +52,9 @@ class Base:
             except Exception as e:
                 print("已存在 --> %s" % one[0])
 
+    def control(self):
+        self.parse_list()
+
 
 class XiCi(Base):
     """
@@ -61,11 +71,13 @@ class XiCi(Base):
     """
 
     def __init__(self):
-        self.list_url = "http://www.xicidaili.com/nt/{page}"
+        self.list_url = "http://www.xicidaili.com/nn/{page}"
+        self.insert_sql = """insert into proxy_ip (ip, port, area, type,
+            protocol) values (%s, %s, %s, %s, %s)"""
         super().__init__()
 
     def parse_list(self):
-        for p in range(1, 100):
+        for p in range(93, 100):
             try:
                 url = self.list_url.format(page=p)
                 r = self.session.get(url)
@@ -74,7 +86,7 @@ class XiCi(Base):
                 values = self.parse_detail(trs)
                 self.save(values)
                 print("解析第【%s】页完成！" % p)
-                time.sleep(random.randint(5, 10))
+                time.sleep(random.randint(10, 15))
             except Exception as e:
                 print(e)
                 print("解析第【%s】页出错..." % p)
@@ -93,10 +105,12 @@ class IP181(Base):
 
     def __init__(self):
         self.list_url = "http://www.ip181.com/daili/{page}.html"
+        self.insert_sql = """insert into proxy_ip (ip, port, type,
+            protocol, area) values (%s, %s, %s, %s, %s)"""
         super().__init__()
 
     def parse_list(self):
-        for p in range(1, 100):
+        for p in range(150, 200):
             try:
                 url = self.list_url.format(page=p)
                 r = self.session.get(url)
@@ -106,7 +120,7 @@ class IP181(Base):
                 values = self.parse_detail(trs)
                 self.save(values)
                 print("解析第【%s】页完成！" % p)
-                time.sleep(random.randint(5, 10))
+                time.sleep(random.randint(10, 15))
             except Exception as e:
                 print(e)
                 print("解析第【%s】页出错..." % p)
@@ -126,10 +140,12 @@ class MimiIp(Base):
 
     def __init__(self):
         self.list_url = "http://www.mimiip.com/gngao/{page}"
+        self.insert_sql = """insert into proxy_ip (ip, port, area, type,
+            protocol) values (%s, %s, %s, %s, %s)"""
         super().__init__()
 
     def parse_list(self):
-        for p in range(1, 100):
+        for p in range(1, 50):
             try:
                 url = self.list_url.format(page=p)
                 r = self.session.get(url)
@@ -153,11 +169,55 @@ class MimiIp(Base):
         return values
 
 
+class KuaiDaiLi(Base):
+    """
+    国内高匿代理
+    http://www.kuaidaili.com/free/inha/
+    国内普通代理
+    http://www.kuaidaili.com/free/intr/
+    国外高匿代理
+    http://www.kuaidaili.com/free/outha/
+    国外普通代理
+    http://www.kuaidaili.com/free/outtr/
+    """
+
+    def __init__(self):
+        self.list_url = "http://www.kuaidaili.com/free/inha/{page}/"
+        self.insert_sql = """insert into proxy_ip (ip, port, type,
+            protocol, area) values (%s, %s, %s, %s, %s)"""
+        super().__init__()
+
+    def parse_list(self):
+        for p in range(200, 1000):
+            try:
+                url = self.list_url.format(page=p)
+                r = self.session.get(url)
+                soup = BeautifulSoup(r.text, 'lxml')
+                trs = soup.select('#list table tr')
+                values = self.parse_detail(trs)
+                self.save(values)
+                print("解析第【%s】页完成！" % p)
+                time.sleep(random.randint(10, 15))
+            except Exception as e:
+                print(e)
+                print("解析第【%s】页出错..." % p)
+
+    def parse_detail(self, trs):
+        values = []
+        del trs[0]
+        for tr in trs:
+            tds = tr('td')
+            one = tuple(td.get_text(strip=True) for td in tds[:5])
+            values.append(one)
+        return values
+
+
 if __name__ == '__main__':
     try:
-        XiCi()
-        # IP181()
-        # MimiIp()
+        # XiCi().control()
+        # IP181().control()
+        # MimiIp().control()
+        KuaiDaiLi().control()
     except Exception as e:
         conn.rollback()
     finally:

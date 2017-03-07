@@ -32,3 +32,7 @@ adddate(curdate(), 1)
 
 # 多个字段一起作为一个唯一约束条件
 ALTER TABLE `test` ADD UNIQUE `unique_index_name` (`c1`, `c2`, `c3`);
+
+
+# 交换表中的两列数据
+UPDATE product AS a, product AS b SET a.original_price=b.price, a.price=b.original_price WHERE a.id=b.id;
