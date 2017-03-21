@@ -2,6 +2,7 @@
 """
 GET http://api.tmkoo.com/app-reg.php?mobile=b4:52:7e:ca HTTP/1.1
 """
+import re
 import json
 import math
 import urllib.parse as urlparse
@@ -39,6 +40,12 @@ class TrademarkUrlSpider(scrapy.Spider):
                 if pn <= math.ceil(count / 50):
                     next_page = scroll_url.format(logid=logid, pn=pn)
                     yield scrapy.Request(next_page, callback=self.parse)
+        elif data['msg'] == "您的接口调用权限已过期，请联系标库网客服续费！":
+            regex = r".*&apiKey=(\w+)&apiPassword=(\w+).*"
+            key, password = re.findall(regex, response.url)
+            api = "&apiKey=%s&apiPassword=%s" % (key, password)
+            redis_server.lrem('tmkoo_api_list', api)
+            self.log("%s已过期！" % api)
         else:
             log = "ret: %s, remainCount: %s, msg: %s." % (
                 data['ret'], data['remainCount'], data['msg'])

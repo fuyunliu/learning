@@ -1,15 +1,9 @@
-#!/usr/bin/env python
-# encoding: utf-8
-#
-# Copyright (c) 2008 Doug Hellmann All rights reserved.
-#
-"""
-"""
-#end_pymotw_header
 
-import urllib
+import urllib.parse
+import urllib.request
 
-url = 'http://localhost:8080/~dhellmann/'
-print 'urlencode() :', urllib.urlencode({'url':url})
-print 'quote()     :', urllib.quote(url)
-print 'quote_plus():', urllib.quote_plus(url)
+url = "http://sbcx.saic.gov.cn:9080/tmois/wszhcx_getLikeCondition.xhtml?appCnName=华为终端有限公司&intCls=&paiType=0"
+
+print('urlencode() :', urllib.parse.urlencode({'url': url}))
+print('quote()     :', urllib.request.quote(url))
+print('quote_plus():', urllib.request.quote(urllib.request.quote(url)))

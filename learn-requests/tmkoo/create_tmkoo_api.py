@@ -44,7 +44,7 @@ def save_api(api):
     if isinstance(api, dict):
         key, password = api['key'], api['password']
         with connection.cursor() as cursor:
-            sql = "INSERT INTO `tmkoo` (`key`, `password`) VALUES (%s, %s)"
+            sql = "INSERT INTO `tmkoo` (`apikey`, `apipassword`) VALUES (%s, %s)"
             cursor.execute(sql, (key, password))
             print("成功添加！key: %s, password: %s" % (key, password))
         connection.commit()

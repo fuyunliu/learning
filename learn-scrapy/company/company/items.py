@@ -15,6 +15,10 @@ class GmpGspUrlItem(scrapy.Item):
     url = scrapy.Field()
 
 
+class TmkooApiItem(scrapy.Item):
+    api = scrapy.Field()
+
+
 class HaiguanItem(scrapy.Item):
 
     company_name = scrapy.Field()

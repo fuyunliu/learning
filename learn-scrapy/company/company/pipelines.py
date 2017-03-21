@@ -128,7 +128,8 @@ class BaseRedisPipeline:
         self.list_name = list_name
 
     def open_spider(self, spider):
-        self.dbpool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+        self.dbpool = redis.ConnectionPool(host='localhost', port=6379,
+                                           db=0)
         self.redis = redis.Redis(connection_pool=self.dbpool)
 
     def close_spider(self, spider):
@@ -169,3 +170,19 @@ class GmpGspUrlPipeline(BaseRedisPipeline):
         return cls(key_name='url',
                    set_name='company_gmpgsp_detail_url_set',
                    list_name='company_gmpgsp_detail_url_list')
+
+
+class TmkooApiPipeline:
+
+    def open_spider(self, spider):
+        self.dbpool = redis.ConnectionPool(host='123.196.124.161', port=6379,
+                                           db=0, password='redispwd')
+        self.redis = redis.Redis(connection_pool=self.dbpool)
+
+    def close_spider(self, spider):
+        self.dbpool.disconnect()
+
+    def process_item(self, item, spider):
+        api = item['api']
+        self.redis.rpush('tmkoo_api_list', api)
+        spider.log("成功添加：%s" % api)

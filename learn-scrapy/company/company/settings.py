@@ -10,7 +10,7 @@ RETRY_HTTP_CODES = [500, 501, 502, 503, 504, 400, 403, 404, 408]
 # LOG_FILE = 'spider.log'
 # LOG_LEVEL = 'INFO'
 DOWNLOADER_MIDDLEWARES = {
-    "scrapy.downloadermiddlewares.retry.RetryMiddleware": 90,
+    # "scrapy.downloadermiddlewares.retry.RetryMiddleware": 90,
     "company.middlewares.UserAgentMiddleware": 100,
     # "company.middlewares.CookieMiddleware": 130,
     # 'company.middlewares.ProxyMiddleware': 110,
@@ -24,9 +24,10 @@ ITEM_PIPELINES = {
     # 'company.pipelines.HaiGuanIdPipeline': 300,
     # 'company.pipelines.TrademarkPipeline': 300,
     # 'company.pipelines.StockPipeline': 300,
-    # 'company.pipelines.TrademarkUrlPipeline': 300,
+    'company.pipelines.TrademarkUrlPipeline': 300,
     # 'company.pipelines.CreditPipeline': 300,
-    'company.pipelines.GmpGspUrlPipeline': 300,
+    # 'company.pipelines.GmpGspUrlPipeline': 300,
+    # 'company.pipelines.TmkooApiPipeline': 300,
 }
 DATABASES = {
     'oracle': {
