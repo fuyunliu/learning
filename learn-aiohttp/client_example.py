@@ -18,7 +18,7 @@ async def update():
                                   db='testdb', loop=loop)
 
     cur = yield from conn.cursor()
-    yield from cur.execute("SELECT Host,User FROM user")
+    yield from cur.execute("SELECT Host, User FROM user")
     print(cur.description)
     r = yield from cur.fetchall()
     print(r)
