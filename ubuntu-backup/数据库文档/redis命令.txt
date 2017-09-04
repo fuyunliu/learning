@@ -7,5 +7,3 @@ select 0
 
 显示所有key
 keys *
-
-
