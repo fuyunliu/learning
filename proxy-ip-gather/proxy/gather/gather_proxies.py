@@ -6,7 +6,7 @@ import time
 import warnings
 import pymysql.cursors
 from bs4 import BeautifulSoup
-from constants import agents
+from useragent import browsers
 
 
 conn = pymysql.connect(
@@ -16,17 +16,6 @@ conn = pymysql.connect(
     db='testdb',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor)
-headers = {
-"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-"Accept-Encoding":"gzip, deflate, sdch",
-"Accept-Language":"zh-CN,zh;q=0.8,en;q=0.6,und;q=0.4",
-"Connection":"keep-alive",
-"Cookie":"_ydclearance=7510daceb57824953fc16b39-058a-4ef6-9418-3e89c2a1abbb-1488960049; channelid=0; sid=1488952532859123; _ga=GA1.2.1682203384.1488866308; _gat=1",
-"Host":"www.kuaidaili.com",
-"Referer":"http://www.kuaidaili.com/",
-"Upgrade-Insecure-Requests":"1",
-"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
-}
 
 
 class Base:
@@ -34,8 +23,7 @@ class Base:
     def __init__(self):
         self.conn = conn
         self.session = requests.Session()
-        self.session.headers = headers
-        # self.session.headers['User-Agent'] = random.choice(agents)
+        self.session.headers['User-Agent'] = random.choice(browsers)
 
     def parse_list(self):
         raise NotImplementedError
@@ -80,7 +68,7 @@ class XiCi(Base):
         super().__init__()
 
     def parse_list(self):
-        for p in range(300, 300):
+        for p in range(2, 300):
             try:
                 url = self.list_url.format(page=p)
                 r = self.session.get(url)
@@ -217,10 +205,10 @@ class KuaiDaiLi(Base):
 
 if __name__ == '__main__':
     try:
-        # XiCi().control()
+        XiCi().control()
         # IP181().control()
         # MimiIp().control()
-        KuaiDaiLi().control()
+        # KuaiDaiLi().control()
     except Exception as e:
         conn.rollback()
     finally:

@@ -24,6 +24,8 @@ kill PID 或 sudo kill PID 或 killall firefox 或 kill -9 PID
 查看哪些进程占用了8000端口
 lsof -i:8000
 netstat -ap|grep 8000
+netstat -plan | grep 3301
+
 
 杀死所有和8000端口有关的进程
 sudo fuser -k 8000/tcp

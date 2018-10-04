@@ -159,37 +159,36 @@ if __name__ == '__main__':
     original_test = list(random.randint(1, 100) for _ in range(10))
     print("原始列表：    %s" % original_test)
 
-    # # 插入排序
-    # insert_test = insert_sort(original_test)
+    # 插入排序
+    insert_test = insert_sort(original_test)
 
-    # # 希尔排序
-    # shell_test = shell_sort(original_test)
+    # 希尔排序
+    shell_test = shell_sort(original_test)
 
-    # # 冒泡排序
-    # bubble_test = bubble_sort(original_test)
+    # 冒泡排序
+    bubble_test = bubble_sort(original_test)
 
-    # 快速排序
-    # quick_test = quick_sort(original_test)
+    快速排序
+    quick_test = quick_sort(original_test)
 
-    # # 直接选择排序
-    # select_test = select_sort(original_test)
+    # 直接选择排序
+    select_test = select_sort(original_test)
 
-    # # 堆排序
-    # heap_test = heap_sort(original_test)
+    # 堆排序
+    heap_test = heap_sort(original_test)
 
-    # # 归并排序
-    # merge_test = merge_sort(original_test)
+    # 归并排序
+    merge_test = merge_sort(original_test)
 
-    # # 基数排序
-    # radix_test = radix_sort(original_test)
+    # 基数排序
+    radix_test = radix_sort(original_test)
 
-    # print("插入排序：    %s" % insert_test)
-    # print("希尔排序：    %s" % shell_test)
-    # print("冒泡排序：    %s" % bubble_test)
-    # print("快速排序：    %s" % quick_test)
-    # print("直接选择排序：%s" % select_test)
-    # print("堆排序：      %s" % heap_test)
-    # print("归并排序：    %s" % merge_test)
-    # print("基数排序：    %s" % radix_test)
-
+    print("插入排序：    %s" % insert_test)
+    print("希尔排序：    %s" % shell_test)
+    print("冒泡排序：    %s" % bubble_test)
+    print("快速排序：    %s" % quick_test)
+    print("直接选择排序：%s" % select_test)
+    print("堆排序：      %s" % heap_test)
+    print("归并排序：    %s" % merge_test)
+    print("基数排序：    %s" % radix_test)
     print("快速排序：    %s" % qs(original_test))

@@ -21,8 +21,8 @@ class CleanProxy:
     def __init__(self):
         self.conn = conn
         self.test_url = "http://httpbin.org/ip"
-        self.fetch_sql = "select id, ip, port from proxy_ip order by id limit 70"
-        self.delete_sql = "delete from proxy_ip where id = {id}"
+        self.fetch_sql = "select id, ip, port from proxy_ip where id >= 34715 and id <=164211"
+        self.update_sql = "update proxy_ip set usability = {u} where id = {id}"
 
     def fetch_all(self):
         with self.conn.cursor() as cursor:
@@ -30,8 +30,8 @@ class CleanProxy:
             rows = cursor.fetchall()
         return rows
 
-    def delete(self, id):
-        sql = self.delete_sql.format(id=id)
+    def update(self, id, u):
+        sql = self.update_sql.format(id=id, u=u)
         with self.conn.cursor() as cursor:
             cursor.execute(sql)
         self.conn.commit()
@@ -44,13 +44,14 @@ class CleanProxy:
                 r = requests.get(self.test_url, proxies=proxies, timeout=5)
                 origin_ip = r.json().get('origin')
                 if origin_ip != ip:
-                    self.delete(id)
-                    print("%s:%s is not anonymous, delete done!" % (ip, port))
+                    self.update(id, 0)
+                    print("%s:%s is not anonymous!" % (ip, port))
                 else:
+                    self.update(id, 1)
                     print("%s:%s is ok!" % (ip, port))
             except Exception as e:
-                self.delete(id)
-                print("connecting %s:%s failed, delete done!" % (ip, port))
+                self.update(id, 0)
+                print("connecting %s:%s failed!" % (ip, port))
 
     def control(self):
         rows = self.fetch_all()
@@ -58,15 +59,5 @@ class CleanProxy:
 
 
 if __name__ == '__main__':
-    # c = CleanProxy()
-    # c.control()
-
-    import pprint
     c = CleanProxy()
-    rows = c.fetch_all()
-    proxies = []
-    for row in rows:
-        proxy = "http://%s:%s" % (row['ip'], row['port'])
-        proxies.append(proxy)
-
-    pprint.pprint(proxies)
+    c.control()
