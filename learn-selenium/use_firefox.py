@@ -23,3 +23,9 @@ options = webdriver.ChromeOptions()
 prefs = {"profile.default_content_setting_values.notifications": 2}
 options.add_experimental_option("prefs", prefs)
 driver = webdriver.Chrome(chrome_options=options)
+
+# chrome禁用图片
+options = Options()
+prefs = {'profile.managed_default_content_settings.images': 2}
+options.add_experimental_option("prefs", prefs)
+chrome = webdriver.Chrome(chrome_options=options)

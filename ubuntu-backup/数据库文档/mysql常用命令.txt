@@ -27,6 +27,11 @@ update mysql.user set password=password('mypassword') where User="root" and Host
 flush privileges;
 grant all on *.* to 'root'@'localhost' identified by 'mypassword' with grant option;
 
+
+# 授权账户使得局域网内的机器可以访问数据库
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+
+
 5，去掉skip-grant-tables
 
 6，重启mysql
@@ -71,5 +76,42 @@ mysql -u username -p -h mysql.cyberciti.biz database-name < data.sql
 
 mysql -u username -p -h 202.54.1.10 < data.sql
 
-# 授权账户使得局域网内的机器可以访问数据库
-GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+
+
+
+
+USE MYSQL;
+
+UPDATE USER SET AUTHENTICATION_STRING = PASSWORD('AC@%J3*J591234'), PASSWORD_EXPIRED = 'N', PASSWORD_LAST_CHANGED = NOW() WHERE USER = 'ROOT';
+
+FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON *.* TO 'ROOT'@'%' IDENTIFIED BY 'AC@%J3*J591234' WITH GRANT OPTION;
+
+
+
+
+CREATE USER 'TIANYAN@C083'@'%' IDENTIFIED BY 'TIANYAN@C083';
+GRANT REPLICATION SLAVE ON *.* TO 'TIANYAN@C083'@'%';
+
+
+
+
+SHOW MASTER STATUS;
+SHOW BINARY LOGS;
+
+
+
+./MYSQL -S /VAR/LIB/MYSQL/MYSQL1.SOCK -P YOUR-PASSWORD
+
+
+
+SET GLOBAL EXPIRE_LOGS_DAYS = 10;
+FLUSH LOGS;
+SHOW BINARY LOGS;
+
+
+PURGE BINARY LOGS TO 'mysql-bin.000080';
+SHOW BINARY LOGS;
+
+
