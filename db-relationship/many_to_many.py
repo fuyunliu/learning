@@ -68,6 +68,7 @@ if __name__ == '__main__':
 3, sqlalchemy有func.now()和func.current_timestamp()来告诉数据库自己计算时间戳
 4, 注意func.now() 和 func.current_timestamp()均返回的是函数
 5, sqlalchemy中的onupdate意味着当记录更新时，该字段会更新为一个新的时间戳
+6, server_default是在数据库层设置默认值，default是在使用sqlalchemy时在python层设置默认值
 举个例子：
 from sqlalchemy.sql import func
 time_created = Column(DateTime(timezone=True), server_default=func.now())
